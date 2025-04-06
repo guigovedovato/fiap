@@ -1,6 +1,6 @@
 # FIAP
 
-Repository created for store my FIAP projects
+Repository created for store my FIAP POS TECH in .NET SYSTEMS ARCHITECTURE projects
 
 ## Projects
 
