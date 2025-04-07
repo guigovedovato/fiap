@@ -9,8 +9,8 @@ public static class SwaggerConfiguration
     {
         services.AddOpenApiDocument(options =>
         {
-            options.DocumentName = "MarketPlace Minimal API";
-            options.Title = "MarketPlace Minimal API v1";
+            options.DocumentName = "MarketPlace GraphQL API";
+            options.Title = "MarketPlace GraphQL API v1";
             options.Version = "v1";
             options.DocumentProcessors.Add(
                 new SecurityDefinitionAppender("JWT Token",

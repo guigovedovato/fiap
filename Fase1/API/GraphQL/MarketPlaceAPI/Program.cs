@@ -6,7 +6,9 @@ using MarketPlaceAPI.Product.Infrastructure;
 using MarketPlaceAPI.Product.Interface;
 using MarketPlaceAPI.Product.Repository;
 using MarketPlaceAPI.Product.Service;
+using MarketPlaceAPI.Product.GraphQL;
 using Microsoft.EntityFrameworkCore;
+using HotChocolate.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,12 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("User", policy => policy.RequireRole("User"));
 });
 
+builder.Services.AddGraphQLServer()
+    .AddQueryType<ProductQuery>()
+    .AddMutationType<ProductMutation>()
+    .AddFiltering()
+    .AddSorting();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -31,7 +39,7 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi();
     app.UseSwaggerUi(config =>
     {
-        config.DocumentTitle = "MarketPlace Minimal API";
+        config.DocumentTitle = "MarketPlace GraphQL API";
         config.Path = "/swagger";
         config.DocumentPath = "/swagger/{documentName}/swagger.json";
         config.DocExpansion = "list";
@@ -43,5 +51,7 @@ app.MapAuthEndpoints();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapGraphQL();
 
 app.Run();
