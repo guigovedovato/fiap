@@ -4,6 +4,7 @@ using MarketPlaceAPI.Product.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketPlaceAPI.Product.Service;
+
 public class ProductService(ProductRepository _productRepository) : IProductService
 {
     public async Task<List<ProductModel>> GetAllProductsAsync()

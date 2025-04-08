@@ -2,7 +2,6 @@ using MarketPlaceAPI.Auth.Infrastructure;
 using MarketPlaceAPI.Auth.Interface;
 using MarketPlaceAPI.Auth.Service;
 using MarketPlaceAPI.Infrastructure;
-using MarketPlaceAPI.Product.Infrastructure;
 using MarketPlaceAPI.Product.Interface;
 using MarketPlaceAPI.Product.Repository;
 using MarketPlaceAPI.Product.Service;
@@ -46,7 +45,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapProductEndpoints();
 app.MapAuthEndpoints();
 
 app.UseAuthentication();
