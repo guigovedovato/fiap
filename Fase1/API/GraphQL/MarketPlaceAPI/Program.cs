@@ -26,6 +26,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddGraphQLServer()
+    .AddAuthorization()
     .AddQueryType<ProductQuery>()
     .AddMutationType<ProductMutation>()
     .AddFiltering()
@@ -47,9 +48,14 @@ if (app.Environment.IsDevelopment())
 
 app.MapAuthEndpoints();
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGraphQL();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGraphQL().RequireAuthorization();
+});
 
 app.Run();

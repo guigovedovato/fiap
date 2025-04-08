@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
+
 namespace MarketPlaceAPI.Product.Model
 {
+    [Authorize(Policy = "Admin")]
+    [Authorize(Policy = "User")]
     public class ProductModel
     {
         public int Id { get; set; }
