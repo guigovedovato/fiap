@@ -3,15 +3,8 @@ using MarketPlaceAPI.Product.Model;
 
 namespace MarketPlaceAPI.Product.GraphQL;
 
-public class ProductMutation
+public class ProductMutation(IProductService _productService)
 {
-    private readonly IProductService _productService;
-
-    public ProductMutation(IProductService productService)
-    {
-        _productService = productService;
-    }
-
     public async Task<bool> AddProductAsync(ProductModel product)
     {
         await _productService.AddProductAsync(product);

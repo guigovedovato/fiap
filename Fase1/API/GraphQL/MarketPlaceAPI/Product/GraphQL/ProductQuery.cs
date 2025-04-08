@@ -3,15 +3,8 @@ using MarketPlaceAPI.Product.Model;
 
 namespace MarketPlaceAPI.Product.GraphQL;
 
-public class ProductQuery
+public class ProductQuery(IProductService _productService)
 {
-    private readonly IProductService _productService;
-
-    public ProductQuery(IProductService productService)
-    {
-        _productService = productService;
-    }
-
     public async Task<List<ProductModel>> GetProductsAsync()
     {
         return await _productService.GetAllProductsAsync();

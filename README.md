@@ -6,6 +6,7 @@ Repository created for store my FIAP POS TECH in .NET SYSTEMS ARCHITECTURE proje
 
 * [Minimal API](./Fase1/API/Minimal)
 * [GraphQL API](./Fase1/API/GraphQL)
+* [gRPC API](./Fase1/API/Grpc)
 
 ## Links
 
