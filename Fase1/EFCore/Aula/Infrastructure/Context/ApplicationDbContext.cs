@@ -1,17 +1,28 @@
 using Core.Entity;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Repository.Configurations;
+using Infrastructure.Context.Configurations;
+using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.Repository;
+namespace Infrastructure.Context;
 
 public class ApplicationDbContext : DbContext
 {
     private readonly string _connectionString;
+    
     public ApplicationDbContext(string connectionString)
     {
         _connectionString = connectionString;
     }
-    public ApplicationDbContext(){}
+
+    public ApplicationDbContext()
+    {
+        IConfiguration configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+        _connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string not found.");
+    }
 
     public DbSet<Book> Books { get; set; } = null!;
     public DbSet<Client> Clients { get; set; } = null!;

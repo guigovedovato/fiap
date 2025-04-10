@@ -2,7 +2,7 @@ using Core.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Repository.Configurations;
+namespace Infrastructure.Context.Configurations;
 
 public class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
@@ -12,7 +12,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id)
             .HasColumnType("INT")
-            .ValueGeneratedNever()
             .UseIdentityColumn();
         builder.Property(o => o.CreatedAt)
             .HasColumnType("DATETIME")

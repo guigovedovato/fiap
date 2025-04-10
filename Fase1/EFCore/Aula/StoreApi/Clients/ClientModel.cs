@@ -1,10 +1,9 @@
-namespace Core.Entity;
+namespace StoreApi.Clients;
 
-public class Client : EntityBase
+public class ClientModel
 {
+    public int Id { get; set; }
     public required string Name { get; set; }
     public DateTime? BirthDate { get; set; }
     public string? Email { get; set; }
-
-    public ICollection<Order>? Orders { get; set; }
 }

@@ -2,7 +2,7 @@ using Core.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Repository.Configurations;
+namespace Infrastructure.Context.Configurations;
 
 public class BookConfiguration : IEntityTypeConfiguration<Book>
 {
@@ -12,7 +12,6 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id)
             .HasColumnType("INT")
-            .ValueGeneratedNever()
             .UseIdentityColumn();
         builder.Property(b => b.CreatedAt)
             .HasColumnType("DATETIME")

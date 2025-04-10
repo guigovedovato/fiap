@@ -2,7 +2,7 @@ using Core.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Repository.Configurations;
+namespace Infrastructure.Context.Configurations;
 
 public class ClientConfiguration : IEntityTypeConfiguration<Client>
 {
@@ -12,7 +12,6 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id)
             .HasColumnType("INT")
-            .ValueGeneratedNever()
             .UseIdentityColumn();
         builder.Property(c => c.CreatedAt)
             .HasColumnType("DATETIME")
