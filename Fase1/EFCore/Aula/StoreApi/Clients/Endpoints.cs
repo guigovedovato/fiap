@@ -14,6 +14,7 @@ public static class Endpoints
         clientGroup.MapPost("/", CreateClient);
         clientGroup.MapPut("/", UpdateClient);
         clientGroup.MapDelete("/{id}", DeleteClient);
+        clientGroup.MapGet("/order/{id}", GetOrdersById);
     }
 
     private static async Task<IResult> GetAllClients(IClientRepository clientRepository)
@@ -82,5 +83,11 @@ public static class Endpoints
         {
             return TypedResults.BadRequest(ex.Message);
         }
+    }
+
+    private static async Task<IResult> GetOrdersById(int id, IClientRepository clientRepository)
+    {
+        var client = await clientRepository.GetOrdersByIdAsync(id);
+        return client is not null ? TypedResults.Ok(client) : TypedResults.NotFound();
     }
 }

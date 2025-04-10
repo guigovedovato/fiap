@@ -33,6 +33,7 @@ public class ApplicationDbContext : DbContext
         if(!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseLazyLoadingProxies();
         }
     }
 

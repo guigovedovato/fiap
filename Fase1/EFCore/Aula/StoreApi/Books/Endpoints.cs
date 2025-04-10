@@ -1,5 +1,6 @@
 using Core.Repository;
 using Core.Entity;
+using Core.Dto;
 
 namespace StoreApi.Books;
 
@@ -14,12 +15,33 @@ public static class Endpoints
         bookGroup.MapPost("/", CreateBook);
         bookGroup.MapPut("/", UpdateBook);
         bookGroup.MapDelete("/{id}", DeleteBook);
+        bookGroup.MapPost("/bulk/", AddBulkBooks);
     }
 
     private static async Task<IResult> GetAllBooks(IBookRepository bookRepository)
     {
+        var booksDto = new List<BookDto>();
         var books = await bookRepository.GetAllAsync();
-        return TypedResults.Ok(books);
+
+        foreach (var book in books)
+        {
+            booksDto.Add(new BookDto
+            {
+                Id = book.Id,
+                CreatedAt = book.CreatedAt,
+                Title = book.Title,
+                Publisher = book.Publisher,
+                Orders = book.Orders.Select(o =>
+                    new OrderDto
+                    {
+                        ClientId = o.ClientId,
+                        BookId = o.BookId
+                    }
+                ).ToList()
+            });
+        }
+
+        return TypedResults.Ok(booksDto);
     }
 
     private static async Task<IResult> GetBookById(int id, IBookRepository bookRepository)
@@ -74,6 +96,24 @@ public static class Endpoints
                 return TypedResults.NotFound();
             }
             await bookRepository.DeleteAsync(book.Id);
+            return TypedResults.Ok();
+        }
+        catch (Exception ex)
+        {
+            return TypedResults.BadRequest(ex.Message);
+        }
+    }
+
+    private static async Task<IResult> AddBulkBooks(IEnumerable<BookModel> bookModels, IBookRepository bookRepository)
+    {
+        try 
+        {
+            var books = bookModels.Select(b => new Book
+            {
+                Title = b.Title,
+                Publisher = b.Publisher
+            });
+            await bookRepository.AddBulkAsync(books);
             return TypedResults.Ok();
         }
         catch (Exception ex)

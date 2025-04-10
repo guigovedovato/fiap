@@ -1,8 +1,9 @@
 using Core.Entity;
+using Core.Dto;
 
 namespace Core.Repository;
 
 public interface IClientRepository : IRepository<Client>
 {
-    Task<Client> GetOrdersByIdAsync(int id);
+    Task<ClientDto> GetOrdersByIdAsync(int id);
 }
