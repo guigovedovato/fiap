@@ -4,8 +4,15 @@ using Infrastructure.Repository.Configurations;
 
 namespace Infrastructure.Repository;
 
-public class ApplicationDbContext(string _connectionString) : DbContext
+public class ApplicationDbContext : DbContext
 {
+    private readonly string _connectionString;
+    public ApplicationDbContext(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
+    public ApplicationDbContext(){}
+
     public DbSet<Book> Books { get; set; } = null!;
     public DbSet<Client> Clients { get; set; } = null!;
     public DbSet<Order> Orders { get; set; } = null!;

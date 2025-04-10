@@ -22,5 +22,7 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
             .HasColumnType("VARCHAR(100)");
         builder.Property(c => c.BirthDate)
             .HasColumnType("DATETIME");
+        builder.Property(c => c.Email)
+            .HasColumnType("VARCHAR(100)");
     }
 }
