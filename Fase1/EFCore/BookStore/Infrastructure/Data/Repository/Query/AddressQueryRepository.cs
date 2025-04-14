@@ -1,6 +1,7 @@
 using BookStore.Core.Entity;
 using BookStore.Core.Interface.Data.Query;
 using BookStore.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Infrastructure.Data.Repository.Query;
 
@@ -8,13 +9,17 @@ public class AddressQueryRepository : QueryRepository<Address>, IAddressQueryRep
 {
     public AddressQueryRepository(QueryDbContext context) : base(context) {}
 
-    public Task<Address> GetByCustomerIdAsync(Guid customerId)
+    public async Task<Address?> GetByCustomerIdAsync(Guid customerId)
     {
-        return Task.FromResult(null as Address);
+        return await _context.Addresses
+                             .Include(a => a.Customer)
+                             .FirstOrDefaultAsync(x => x.Customer.Id == customerId);
     }
 
-    public Task<Address> GetBySellerIdAsync(Guid sellerId)
+    public async Task<Address?> GetBySellerIdAsync(Guid sellerId)
     {
-        return Task.FromResult(null as Address);
+        return await _context.Addresses
+                             .Include(a => a.Seller)
+                             .FirstOrDefaultAsync(x => x.Seller.Id == sellerId);
     }
 }

@@ -1,6 +1,7 @@
 using BookStore.Core.Entity;
 using BookStore.Core.Interface.Data.Query;
 using BookStore.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Infrastructure.Data.Repository.Query;
 
@@ -8,13 +9,13 @@ public class StockQueryRepository : QueryRepository<Stock>, IStockQueryRepositor
 {
     public StockQueryRepository(QueryDbContext context) : base(context) {}
 
-    public Task<Stock> GetByBookIdAsync(Guid bookId)
+    public async Task<Stock?> GetByBookIdAsync(Guid bookId)
     {
-        return Task.FromResult(null as Stock);
+        return await _context.Stocks.FirstOrDefaultAsync(x => x.BookId == bookId);
     }
 
-    public Task<IEnumerable<Stock>> GetBySellerIdAsync(Guid sellerId)
+    public async Task<IEnumerable<Stock>> GetBySellerIdAsync(Guid sellerId)
     {
-        return Task.FromResult(Enumerable.Empty<Stock>());
+        return await _context.Stocks.Where(x => x.SellerId == sellerId).ToListAsync();
     }
 }

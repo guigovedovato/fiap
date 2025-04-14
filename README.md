@@ -13,6 +13,7 @@ Repository created for store my FIAP POS TECH in .NET SYSTEMS ARCHITECTURE proje
 ### Entity Framework Core
 
 * [Aula](./Fase1/EFCore/Aula)
+* [BookStore](./Fase1/EFCore/BookStore)
 
 ## Links
 
