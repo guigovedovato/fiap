@@ -1,7 +1,9 @@
-using BookStore.Core.Entity;
+using BookStore.Core.Dto;
 
 namespace BookStore.Core.Interface.Service.Query;
 
-public interface ICustomerQueryService : IQueryService<Customer>
+public interface ICustomerQueryService
 {
+    Task<IEnumerable<CustomerDto>> GetAllAsync();
+    Task<CustomerDto?> GetByIdAsync(Guid id);
 }

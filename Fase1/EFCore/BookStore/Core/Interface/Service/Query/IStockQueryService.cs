@@ -1,9 +1,11 @@
-using BookStore.Core.Entity;
+using BookStore.Core.Dto;
 
 namespace BookStore.Core.Interface.Service.Query;
 
-public interface IStockQueryService : IQueryService<Stock>
+public interface IStockQueryService
 {
-    Task<Stock?> GetByBookIdAsync(Guid bookId);
-    Task<IEnumerable<Stock>> GetBySellerIdAsync(Guid sellerId);
+    Task<IEnumerable<StockDto>> GetAllAsync();
+    Task<StockDto?> GetByIdAsync(Guid id);
+    Task<StockDto?> GetByBookIdAsync(Guid bookId);
+    Task<IEnumerable<StockDto>> GetBySellerIdAsync(Guid sellerId);
 }

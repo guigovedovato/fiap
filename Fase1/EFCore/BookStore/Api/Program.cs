@@ -20,6 +20,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerDocumentation();
 }
 
-//app.MapClientEndpoints();
+app.MapAddressEndpoints();
+app.MapBookEndpoints();
+app.MapCustomerEndpoints();
+app.MapSellerEndpoints();
+app.MapStockEndpoints();
 
 app.Run();
