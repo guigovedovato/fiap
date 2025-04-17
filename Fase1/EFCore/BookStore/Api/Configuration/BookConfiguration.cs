@@ -17,6 +17,9 @@ public static class BookConfiguration
         bookGroup.MapPost("/", CreateBook);
         bookGroup.MapPut("/", UpdateBook);
         bookGroup.MapDelete("/{id}", DeleteBook);
+
+        bookGroup.MapGet("/seller/{id}", GetBySellerIdAsync);
+        bookGroup.MapGet("/stock/{id}", GetByStockIdAsync);
     }
 
     private static async Task<IResult> GetAllBooks(IBookQueryService bookService)
@@ -53,5 +56,17 @@ public static class BookConfiguration
 
         await bookService.DeleteAsync(id);
         return Results.NoContent();
+    }
+
+    private static async Task<IResult> GetBySellerIdAsync(IBookQueryService bookService, Guid id)
+    {
+        var books = await bookService.GetBySellerIdAsync(id);
+        return Results.Ok(books);
+    }
+
+    private static async Task<IResult> GetByStockIdAsync(IBookQueryService bookService, Guid id)
+    {
+        var book = await bookService.GetByStockIdAsync(id);
+        return book is not null ? Results.Ok(book) : Results.NotFound();
     }
 }

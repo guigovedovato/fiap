@@ -34,13 +34,5 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
         builder.Property(a => a.Country)
             .IsRequired()
             .HasColumnType("VARCHAR(50)");
-
-        // Relationships
-        builder.HasOne(a => a.Customer)
-            .WithOne()
-            .HasPrincipalKey("Id");
-        builder.HasOne(a => a.Seller)
-            .WithOne()
-            .HasPrincipalKey("Id");
     }
 }

@@ -11,8 +11,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.ToTable("Customers");
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id)
-            .HasColumnType("UniqueIdentifier")
-            .UseIdentityColumn();
+            .HasColumnType("UniqueIdentifier");
         builder.Property(c => c.CreatedAt)
             .HasColumnType("DATETIME")
             .IsRequired();
@@ -32,7 +31,8 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         // Relationships
         builder.HasOne(c => c.Address)
-            .WithOne()
-            .HasForeignKey("AddressId");
+            .WithOne(c => c.Customer)
+            .HasForeignKey<Address>(a => a.CustomerId)
+            .IsRequired();
     }
 }

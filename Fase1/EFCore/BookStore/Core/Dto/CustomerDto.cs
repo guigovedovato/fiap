@@ -8,7 +8,5 @@ public class CustomerDto
     public required string Name { get; set; }
     public required string Email { get; set; }
     public required string Phone { get; set; }
-    public required string AddressId { get; set; }
-
-    public AddressDto Address { get; set; } = null!;
+    public required AddressDto Address { get; set; }
 }

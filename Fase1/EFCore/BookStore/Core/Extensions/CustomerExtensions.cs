@@ -16,7 +16,7 @@ public static class CustomerExtensions
             Name = customer.Name,
             Email = customer.Email,
             Phone = customer.Phone,
-            AddressId = customer.AddressId
+            Address = customer.Address.ToDto()
         };
     }
 
@@ -27,7 +27,7 @@ public static class CustomerExtensions
             Name = customerVm.Name,
             Email = customerVm.Email,
             Phone = customerVm.Phone,
-            AddressId = customerVm.AddressId
+            Address = customerVm.Address.ToDto()
         };
     }
 
@@ -38,7 +38,7 @@ public static class CustomerExtensions
             Name = customer.Name,
             Email = customer.Email,
             Phone = customer.Phone,
-            AddressId = customer.AddressId
+            Address = customer.Address.ToEntity()
         };
     }
 
@@ -52,7 +52,7 @@ public static class CustomerExtensions
             Name = customer.Name,
             Email = customer.Email,
             Phone = customer.Phone,
-            AddressId = customer.AddressId
+            Address = customer.Address.ToVm()
         };
     }
 }

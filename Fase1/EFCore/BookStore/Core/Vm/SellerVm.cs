@@ -8,6 +8,6 @@ public class SellerVm
     public required string Name { get; set; }
     public required string Email { get; set; }
     public required string Phone { get; set; }
-    public required string AddressId { get; set; }
-    public ICollection<Guid> BooksId { get; set; } = new List<Guid>();
+    public required AddressVm Address { get; set; }
+    public ICollection<BookVm> Books { get; set; } = new List<BookVm>();
 }

@@ -31,10 +31,7 @@ public class StockConfiguration : IEntityTypeConfiguration<Stock>
 
         // Relationships
         builder.HasOne(s => s.Book)
-            .WithOne()
-            .HasPrincipalKey("Id");
-        builder.HasOne(s => s.Seller)
-            .WithMany(s => s.Stocks)
-            .HasPrincipalKey(o => o.Id);
+            .WithOne(s => s.Stock)
+            .HasForeignKey<Stock>(s => s.BookId);
     }
 }

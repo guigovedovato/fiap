@@ -16,7 +16,7 @@ public static class SellerExtensions
             Name = seller.Name,
             Email = seller.Email,
             Phone = seller.Phone,
-            AddressId = seller.AddressId
+            Address = seller.Address.ToDto()
         };
     }
 
@@ -27,7 +27,7 @@ public static class SellerExtensions
             Name = sellerVm.Name,
             Email = sellerVm.Email,
             Phone = sellerVm.Phone,
-            AddressId = sellerVm.AddressId
+            Address = sellerVm.Address.ToDto()
         };
     }
 
@@ -38,7 +38,7 @@ public static class SellerExtensions
             Name = seller.Name,
             Email = seller.Email,
             Phone = seller.Phone,
-            AddressId = seller.AddressId
+            Address = seller.Address.ToEntity()
         };
     }
 
@@ -52,7 +52,7 @@ public static class SellerExtensions
             Name = seller.Name,
             Email = seller.Email,
             Phone = seller.Phone,
-            AddressId = seller.AddressId
+            Address = seller.Address.ToVm()
         };
     }
 }

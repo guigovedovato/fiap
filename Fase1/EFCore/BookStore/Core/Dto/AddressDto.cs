@@ -11,6 +11,8 @@ public class AddressDto
     public required string ZipCode { get; set; }
     public required string Country { get; set; }
 
+    public Guid CustomerId { get; set; }
+    public Guid SellerId { get; set; }
     public SellerDto Seller { get; set; } = null!;
     public CustomerDto Customer { get; set; } = null!;
 }

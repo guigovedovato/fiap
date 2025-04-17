@@ -17,6 +17,9 @@ public static class StockConfiguration
         stockGroup.MapPost("/", CreateStock);
         stockGroup.MapPut("/", UpdateStock);
         stockGroup.MapDelete("/{id}", DeleteStock);
+
+        stockGroup.MapGet("/book/{id}", GetByBookIdAsync);
+        stockGroup.MapGet("/seller/{id}", GetBySellerIdAsync);
     }
 
     private static async Task<IResult> GetAllStocks(IStockQueryService stockService)
@@ -53,5 +56,17 @@ public static class StockConfiguration
 
         await stockService.DeleteAsync(id);
         return Results.NoContent();
+    }
+
+    private static async Task<IResult> GetBySellerIdAsync(IStockQueryService stockService, Guid id)
+    {
+        var stocks = await stockService.GetBySellerIdAsync(id);
+        return Results.Ok(stocks);
+    }
+
+    private static async Task<IResult> GetByBookIdAsync(IStockQueryService stockService, Guid id)
+    {
+        var stock = await stockService.GetByBookIdAsync(id);
+        return stock is not null ? Results.Ok(stock) : Results.NotFound();
     }
 }

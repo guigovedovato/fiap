@@ -8,10 +8,6 @@ public class SellerDto
     public required string Name { get; set; }
     public required string Email { get; set; }
     public required string Phone { get; set; }
-    public required string AddressId { get; set; }
-    public ICollection<Guid> BooksId { get; set; } = new List<Guid>();
-
-    public ICollection<BookDto> Books { get; set; } = null!;
-    public AddressDto Address { get; set; } = null!;
-    public ICollection<StockDto> Stocks { get; set; } = null!;
+    public required AddressDto Address { get; set; }
+    public ICollection<BookDto> Books { get; set; } = new List<BookDto>();
 }

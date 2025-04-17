@@ -14,7 +14,16 @@ public static class ServiceConfiguration
 {
     public static void AddService(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddRepository(configuration); // Register the infrastructure layer
+        if (configuration.GetConnectionString("InMemory") == "true")
+        {
+            services.AddInMemoryContext(); // Register the infrastructure layer
+        }
+        else
+        {
+            services.AddSqlContext(configuration); // Register the infrastructure layer
+        }
+
+        services.AddRepository(); // Register the infrastructure layer
 
         services.AddScoped<IAddressCommandService, AddressCommandService>();
         services.AddScoped<IBookCommandService, BookCommandService>();

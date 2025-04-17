@@ -17,6 +17,9 @@ public static class AddressConfiguration
         addressGroup.MapPost("/", CreateAddress);
         addressGroup.MapPut("/", UpdateAddress);
         addressGroup.MapDelete("/{id}", DeleteAddress);
+
+        addressGroup.MapGet("/customer/{id}", GetByCustomerIdAsync);
+        addressGroup.MapGet("/seller/{id}", GetBySellerIdAsync);
     }
 
     private static async Task<IResult> GetAllAddresses(IAddressQueryService addressService)
@@ -53,5 +56,17 @@ public static class AddressConfiguration
 
         await addressService.DeleteAsync(id);
         return Results.NoContent();
+    }
+
+    private static async Task<IResult> GetByCustomerIdAsync(IAddressQueryService addressService, Guid id)
+    {
+        var address = await addressService.GetByCustomerIdAsync(id);
+        return address is not null ? Results.Ok(address) : Results.NotFound();
+    }
+
+    private static async Task<IResult> GetBySellerIdAsync(IAddressQueryService addressService, Guid id)
+    {
+        var address = await addressService.GetBySellerIdAsync(id);
+        return address is not null ? Results.Ok(address) : Results.NotFound();
     }
 }

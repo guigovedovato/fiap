@@ -11,8 +11,7 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.ToTable("Books");
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id)
-            .HasColumnType("UniqueIdentifier")
-            .UseIdentityColumn();
+            .HasColumnType("UniqueIdentifier");
         builder.Property(b => b.CreatedAt)
             .HasColumnType("DATETIME")
             .IsRequired();
@@ -32,13 +31,5 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.Property(b => b.Price)
             .HasColumnType("DECIMAL(18,2)")
             .IsRequired();
-
-        // Relationships
-        builder.HasOne(b => b.Stock)
-            .WithOne()
-            .HasPrincipalKey("Id");
-        builder.HasOne(b => b.Seller)
-            .WithOne()
-            .HasPrincipalKey("Id");
     }
 }

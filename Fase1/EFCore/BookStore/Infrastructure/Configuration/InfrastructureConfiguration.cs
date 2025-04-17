@@ -13,7 +13,22 @@ namespace BookStore.Infrastructure.Configuration;
 
 public static class InfrastructureConfiguration
 {
-    public static void AddRepository(this IServiceCollection services, IConfiguration configuration)
+    public static void AddRepository(this IServiceCollection services)
+    {
+        services.AddScoped<IAddressCommandRepository, AddressCommandRepository>();
+        services.AddScoped<IBookCommandRepository, BookCommandRepository>();
+        services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
+        services.AddScoped<ISellerCommandRepository, SellerCommandRepository>();
+        services.AddScoped<IStockCommandRepository, StockCommandRepository>();
+
+        services.AddScoped<IAddressQueryRepository, AddressQueryRepository>();
+        services.AddScoped<IBookQueryRepository, BookQueryRepository>();
+        services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
+        services.AddScoped<ISellerQueryRepository, SellerQueryRepository>();
+        services.AddScoped<IStockQueryRepository, StockQueryRepository>();
+    }
+
+    public static void AddSqlContext(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<CommandDbContext>(options => 
         {
@@ -21,22 +36,16 @@ public static class InfrastructureConfiguration
             options.UseLazyLoadingProxies();
         }, ServiceLifetime.Scoped);
 
-        services.AddScoped<IAddressCommandRepository, AddressCommandRepository>();
-        services.AddScoped<IBookCommandRepository, BookCommandRepository>();
-        services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
-        services.AddScoped<ISellerCommandRepository, SellerCommandRepository>();
-        services.AddScoped<IStockCommandRepository, StockCommandRepository>();
-
         services.AddDbContext<QueryDbContext>(options => 
         {
             options.UseSqlServer(configuration.GetConnectionString("QueryConnection"));
             options.UseLazyLoadingProxies();
         }, ServiceLifetime.Scoped);
+    }
 
-        services.AddScoped<IAddressQueryRepository, AddressQueryRepository>();
-        services.AddScoped<IBookQueryRepository, BookQueryRepository>();
-        services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
-        services.AddScoped<ISellerQueryRepository, SellerQueryRepository>();
-        services.AddScoped<IStockQueryRepository, StockQueryRepository>();
+    public static void AddInMemoryContext(this IServiceCollection services)
+    {
+        services.AddDbContext<CommandDbContext>(opt => opt.UseInMemoryDatabase("CommandDbContext"));
+        services.AddDbContext<QueryDbContext>(opt => opt.UseInMemoryDatabase("QueryDbContext"));
     }
 }

@@ -11,8 +11,7 @@ public class SellerConfiguration : IEntityTypeConfiguration<Seller>
         builder.ToTable("Sellers");
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id)
-            .HasColumnType("UniqueIdentifier")
-            .UseIdentityColumn();
+            .HasColumnType("UniqueIdentifier");
         builder.Property(s => s.CreatedAt)
             .HasColumnType("DATETIME")
             .IsRequired();
@@ -31,15 +30,9 @@ public class SellerConfiguration : IEntityTypeConfiguration<Seller>
             .HasColumnType("VARCHAR(20)");
 
         // Relationships
-        builder.HasOne(s => s.Address)
-            .WithOne()
-            .HasForeignKey("AddressId");
-        builder.HasMany(s => s.Books)
-            .WithOne()
-            .HasForeignKey("BooksId");
-
-        builder.HasMany(s => s.Stocks)
-            .WithOne(s => s.Seller)
-            .HasPrincipalKey(o => o.Id);
+       builder.HasOne(c => c.Address)
+            .WithOne(c => c.Seller)
+            .HasForeignKey<Address>(a => a.CustomerId)
+            .IsRequired();
     }
 }
