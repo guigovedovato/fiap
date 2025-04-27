@@ -15,6 +15,10 @@ Repository created for store my FIAP POS TECH in .NET SYSTEMS ARCHITECTURE proje
 * [Aula](./Fase1/EFCore/Aula)
 * [BookStore](./Fase1/EFCore/BookStore)
 
+## Tech Challenge
+
+* [FIAP Cloud Game](./TechChallange)
+
 ## Links
 
 * [FIAP](https://postech.fiap.com.br/curso/arquitetura-sistemas-net)
