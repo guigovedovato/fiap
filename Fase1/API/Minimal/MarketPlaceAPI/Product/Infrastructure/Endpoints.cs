@@ -9,7 +9,11 @@ namespace MarketPlaceAPI.Product.Infrastructure;
         {
             var productGroup = app.MapGroup("/product");
 
-            productGroup.MapGet("/", GetAllProducts).RequireAuthorization();
+            productGroup.MapGet("/", GetAllProducts).CacheOutput(policy =>
+            {
+                policy.SetVaryByRouteValue("param");
+                policy.Expire(TimeSpan.FromMinutes(10));
+            }).RequireAuthorization();
             productGroup.MapPost("/", CreateProduct).RequireAuthorization("Admin");
             productGroup.MapDelete("/{id}", DeleteProduct).RequireAuthorization("Admin");
         }

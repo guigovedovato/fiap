@@ -1,7 +1,22 @@
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Stocks API",
+        Version = "v1",
+        Description = "Descrição da Sua API",
+        Contact = new OpenApiContact
+        {
+            Name = "Thiago S Adriano",
+            Email = "prof.thiagoadriano@teste.com",
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -15,15 +30,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    TypedResults.Ok("Products");
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();

@@ -1,3 +1,3 @@
 namespace FCG.Domain.Library;
 
-public class LibraryResponse(int GameId, string GameName);
+public class LibraryItemResponse(int GameId, string GameName);
