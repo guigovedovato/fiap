@@ -9,6 +9,6 @@ public class LibraryDto
     public DateTime UpdatedAt { get; set; }
     public bool Wishlist { get; set; }
 
-    public UserDto User { get; set; }
-    public LibraryItemDto Item { get; set; }
+    public UserDto User { get; set; } = null!;
+    public LibraryItemDto Item { get; set; } = null!;
 }

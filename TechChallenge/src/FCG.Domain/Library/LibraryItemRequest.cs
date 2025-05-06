@@ -1,3 +1,10 @@
+using MessagePack;
+
 namespace FCG.Domain.Library;
 
-public class LibraryItemRequest(int GameId);
+[MessagePackObject]
+public class LibraryItemRequest(int GameId)
+{
+    [Key(0)]
+    public int GameId { get; set; } = GameId;
+}

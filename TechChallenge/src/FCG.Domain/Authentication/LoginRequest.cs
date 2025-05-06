@@ -1,3 +1,13 @@
+using MessagePack;
+
 namespace FCG.Domain.Authentication;
 
-public class LoginRequest(string Email, string Password);
+[MessagePackObject]
+public class LoginRequest(string Email, string Password)
+{
+    [Key(0)]
+    public string Email { get; set; } = Email;
+
+    [Key(1)]
+    public string Password { get; set; } = Password;
+}

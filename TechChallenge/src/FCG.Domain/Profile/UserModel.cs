@@ -8,9 +8,9 @@ public class UserModel
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Role { get; set; }
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
+    public required string Role { get; set; }
     public bool IsActive { get; set; }
 
     public virtual LoginModel Login { get; set; } = null!;
