@@ -2,13 +2,10 @@ using Microsoft.Extensions.Primitives;
 
 namespace FCG.API.Configuration.Middleware.CorrelationId;
 
-public class CorrelationMiddleware
+public class CorrelationMiddleware(RequestDelegate next)
 {
-    private readonly RequestDelegate _next;
+    private readonly RequestDelegate _next = next;
     private const string _correlationIdHeader = "x-correlation-id";
-
-    public CorrelationMiddleware(RequestDelegate next) => _next = next;
-
 
     public async Task Invoke(HttpContext context, ICorrelationIdGenerator correlationIdGenerator)
     {

@@ -1,9 +1,9 @@
-using Microsoft.OpenApi.Models;
-using FCG.API.Configuration.Middleware;
-using FCG.API.Configuration.Middleware.CorrelationId;
-using FCG.API.Configuration.Log;
 using FCG.API.Configuration.Jwt;
-using FGC.API.Configuration.Swagger;
+using FCG.API.Configuration.Log;
+using FCG.API.Configuration.Middleware.CorrelationId;
+using FCG.API.Configuration.Middleware.GlobalExceptionHandling;
+using FCG.API.Configuration.Middleware.RequestLogging;
+using FCG.API.Configuration.Swagger;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,11 +18,9 @@ builder.Services.AddCorrelationIdGenerator();
 builder.Services.AddTransient(typeof(BaseLogger));
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("User", policy => policy.RequireRole("User"));
-});
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("Admin", policy => policy.RequireRole("Admin"))
+    .AddPolicy("User", policy => policy.RequireRole("User"));
 
 var app = builder.Build();
 
@@ -43,9 +41,9 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
-app.UseRequestLogging();
 app.UseGlobalExceptionHandling();
 app.UseCorrelationMiddleware();
+app.UseRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();

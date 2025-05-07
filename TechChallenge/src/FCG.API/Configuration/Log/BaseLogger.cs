@@ -1,19 +1,11 @@
-using Serilog;
 using FCG.API.Configuration.Middleware.CorrelationId;
 
 namespace FCG.API.Configuration.Log;
 
-public class BaseLogger
+public class BaseLogger(Serilog.ILogger logger, ICorrelationIdGenerator correlationId)
 {
-    protected readonly Serilog.ILogger _logger;
-    protected readonly ICorrelationIdGenerator _correlationId;
-
-    
-    public BaseLogger(Serilog.ILogger logger, ICorrelationIdGenerator correlationId)
-    {
-        _logger = logger;
-        _correlationId = correlationId;
-    }
+    protected readonly Serilog.ILogger _logger = logger;
+    protected readonly ICorrelationIdGenerator _correlationId = correlationId;
 
     public virtual void LogInformation(string message)
     {

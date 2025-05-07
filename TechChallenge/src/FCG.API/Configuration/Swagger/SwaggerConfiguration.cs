@@ -1,4 +1,4 @@
-namespace FGC.API.Configuration.Swagger;
+namespace FCG.API.Configuration.Swagger;
 
 public static class SwaggerConfiguration
 {
@@ -9,7 +9,7 @@ public static class SwaggerConfiguration
             c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
             {
                 In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-                Description = "Por favor, insira 'Bearer' [espaço] e o token JWT",
+                Description = "Please, insert 'Bearer' [space] and the token JWT",
                 Name = "Authorization",
                 Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
             });
@@ -24,7 +24,7 @@ public static class SwaggerConfiguration
                             Id = "Bearer"
                         }
                     },
-                    new string[] {}
+                    Array.Empty<string>()
                 }
             });
         });
