@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FCG.API.Configuration.Jwt;
 
-public static class JwtAuthentication
+public static class JwtExtensions
 {
     public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {

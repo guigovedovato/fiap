@@ -1,4 +1,4 @@
-namespace FCG.API.Configuration.Middleware.CorrelationId;
+namespace FCG.API.Service.CorrelationId;
 
 public interface ICorrelationIdGenerator
 {

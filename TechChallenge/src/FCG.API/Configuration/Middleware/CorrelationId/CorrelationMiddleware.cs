@@ -1,3 +1,4 @@
+using FCG.API.Service.CorrelationId;
 using Microsoft.Extensions.Primitives;
 
 namespace FCG.API.Configuration.Middleware.CorrelationId;

@@ -1,6 +1,6 @@
 namespace FCG.API.Configuration.Swagger;
 
-public static class SwaggerConfiguration
+public static class SwaggerExtensions
 {
     public static void AddSwaggerDocumentation(this IServiceCollection services)
     {

@@ -1,4 +1,4 @@
-﻿using FCG.API.Configuration.Log;
+﻿using FCG.API.Service.Log;
 
 namespace FCG.API.Configuration.Middleware.GlobalExceptionHandling;
 
@@ -14,9 +14,10 @@ public class GlobalExceptionHandlingMiddleware(RequestDelegate next)
         }
         catch (Exception ex)
         {  
-            logger.LogError($"An unhandled exception occurred: {ex.Message}");
+            var errorId = Guid.NewGuid();
+            logger.LogError($"Error: {errorId}. An unhandled exception occurred: {ex.Message}");
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
+            await context.Response.WriteAsync($"An unexpected fault happened. Try again later. Error: {errorId}.");
         }
     }
 }

@@ -1,9 +1,11 @@
+using FCG.API.Configuration;
 using FCG.API.Configuration.Jwt;
-using FCG.API.Configuration.Log;
 using FCG.API.Configuration.Middleware.CorrelationId;
 using FCG.API.Configuration.Middleware.GlobalExceptionHandling;
 using FCG.API.Configuration.Middleware.RequestLogging;
 using FCG.API.Configuration.Swagger;
+using FCG.API.Service.Cache;
+using MessagePack;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +17,10 @@ builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddCorrelationIdGenerator();
-builder.Services.AddTransient(typeof(BaseLogger));
+builder.Services.AddBaseLogging();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddCacheService();
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAuthorizationBuilder()
@@ -34,11 +39,22 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/product", (ICacheService _cacheService) =>
 {
-    TypedResults.Ok("Products");
+    var key = "productList";
+
+    if (_cacheService.Get(key) is List<string> cachedProduct)
+    {
+        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(cachedProduct));
+    }
+
+    var productList = new List<string> { "Product 1", "Product 2" };
+
+    _cacheService.Set(key, productList);
+
+    return TypedResults.Ok(MessagePackSerializer.SerializeToJson(productList));
 })
-.WithName("GetWeatherForecast")
+.WithName("Product")
 .WithOpenApi();
 
 app.UseGlobalExceptionHandling();
