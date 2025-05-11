@@ -1,4 +1,4 @@
-﻿using FCG.API.Service.Log;
+﻿using FCG.Infrastructure.Log;
 
 namespace FCG.API.Configuration.Middleware.RequestLogging;
 

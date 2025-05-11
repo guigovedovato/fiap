@@ -19,6 +19,11 @@ public class GameService : IGameService
         throw new NotImplementedException();
     }
 
+    public Task<List<GameResponse>> GetGameByFilterAsync(string filter)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<GameDto> GetGameByIdAsync(int gameId)
     {
         throw new NotImplementedException();

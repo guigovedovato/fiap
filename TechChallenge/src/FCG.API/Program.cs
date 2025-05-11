@@ -15,13 +15,9 @@ builder.Services.AddSwaggerDocumentation();
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddCorrelationIdGenerator();
-builder.Services.AddBaseLogging();
-
-builder.Services.AddServices();
+builder.Services.RegisterDependencies();
 
 builder.Services.AddMemoryCache();
-builder.Services.AddCacheService();
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAuthorizationBuilder()
@@ -29,6 +25,10 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy("User", policy => policy.RequireRole("User"));
 
 var app = builder.Build();
+
+app.UseGlobalExceptionHandling();
+app.UseCorrelationMiddleware();
+app.UseRequestLogging();
 
 if (app.Environment.IsDevelopment())
 {
@@ -49,10 +49,6 @@ app.MapGroup("/api/v1/")
 app.MapGroup("/api/v1/")
    .WithTags("Game endpoints")
    .MapGameEndpoints();
-
-app.UseGlobalExceptionHandling();
-app.UseCorrelationMiddleware();
-app.UseRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();

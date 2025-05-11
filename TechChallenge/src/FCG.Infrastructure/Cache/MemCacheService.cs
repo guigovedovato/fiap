@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace FCG.API.Service.Cache;
+namespace FCG.Infrastructure.Cache;
 
 public class MemCacheService(IMemoryCache cache) : ICacheService
 {

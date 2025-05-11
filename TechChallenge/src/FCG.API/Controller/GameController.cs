@@ -1,6 +1,5 @@
-﻿using FCG.API.Service.Cache;
-using FCG.Domain.Profile;
-using FCG.Domain.Store;
+﻿using FCG.Domain.Store;
+using FCG.Infrastructure.Cache;
 using MessagePack;
 
 namespace FCG.API.Controller;
@@ -28,9 +27,9 @@ public static class GameController
         gameGroup.MapPut("/{id}", UpdateGame).RequireAuthorization("Admin");
     }
 
-    static async Task<IResult> UpdateGame(int id, GameRequest GameRequest, IGameService _GameService)
+    static async Task<IResult> UpdateGame(int id, GameRequest GameRequest, IGameService _gameService)
     {
-        var success = await _GameService.UpdateGameAsync(id, GameRequest.ToGameDto());
+        var success = await _gameService.UpdateGameAsync(id, GameRequest.ToGameDto());
         return success is not null ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 

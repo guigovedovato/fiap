@@ -1,5 +1,5 @@
-﻿using FCG.API.Service.Cache;
-using FCG.Domain.Profile;
+﻿using FCG.Domain.Profile;
+using FCG.Infrastructure.Cache;
 using MessagePack;
 
 namespace FCG.API.Controller;

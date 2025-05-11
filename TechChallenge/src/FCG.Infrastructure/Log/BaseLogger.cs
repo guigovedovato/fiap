@@ -1,6 +1,6 @@
-using FCG.API.Service.CorrelationId;
+using FCG.Infrastructure.CorrelationId;
 
-namespace FCG.API.Service.Log;
+namespace FCG.Infrastructure.Log;
 
 public class BaseLogger(Serilog.ILogger logger, ICorrelationIdGenerator correlationId)
 {

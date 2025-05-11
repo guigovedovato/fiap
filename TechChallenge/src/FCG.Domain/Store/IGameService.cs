@@ -7,4 +7,5 @@ public interface IGameService
     Task<int> CreateGameAsync(GameDto gameDto);
     Task<bool> DeleteGameAsync(int gameId);
     Task<GameDto> UpdateGameAsync(int gameId, GameDto gameDto);
+    Task<List<GameResponse>> GetGameByFilterAsync(string filter);
 }

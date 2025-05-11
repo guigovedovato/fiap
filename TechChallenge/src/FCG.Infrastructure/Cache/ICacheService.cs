@@ -1,4 +1,4 @@
-﻿namespace FCG.API.Service.Cache;
+﻿namespace FCG.Infrastructure.Cache;
 
 public interface ICacheService
 {

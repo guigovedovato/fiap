@@ -1,4 +1,4 @@
-namespace FCG.API.Service.CorrelationId;
+namespace FCG.Infrastructure.CorrelationId;
 
 public interface ICorrelationIdGenerator
 {
