@@ -1,5 +1,4 @@
 using FCG.Domain.Profile;
-using FCG.Domain.Game;
 
 namespace FCG.Domain.Library;
 

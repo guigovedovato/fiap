@@ -1,6 +1,6 @@
 using MessagePack;
 
-namespace FCG.Domain.Game;
+namespace FCG.Domain.Store;
 
 [MessagePackObject]
 public class GameRequest(string Name, string Description, string ImageUrl, Genre Genre, string Publisher, DateTime ReleaseDate, decimal Price, bool IsDemo = false, bool IsActive = true)
@@ -31,4 +31,9 @@ public class GameRequest(string Name, string Description, string ImageUrl, Genre
 
     [Key(8)]
     public bool IsActive { get; set; } = IsActive;
+
+    public GameDto ToGameDto()
+    {
+        throw new NotImplementedException();
+    }
 }

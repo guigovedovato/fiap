@@ -1,6 +1,6 @@
 using FCG.Domain.Library;
 
-namespace FCG.Domain.Game;
+namespace FCG.Domain.Store;
 
 public class GameModel
 {

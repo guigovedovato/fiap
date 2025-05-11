@@ -1,3 +1,5 @@
+using Microsoft.OpenApi.Models;
+
 namespace FCG.API.Configuration.Swagger;
 
 public static class SwaggerExtensions
@@ -6,6 +8,13 @@ public static class SwaggerExtensions
     {
         services.AddSwaggerGen(c =>
         {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "FIAP Cloud Game API",
+                Version = "v1",
+                Description = "A FIAP Cloud Games (FCG) é uma plataforma de venda de jogos digitais e gestão de servidores para partidas online."
+            });
+
             c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
             {
                 In = Microsoft.OpenApi.Models.ParameterLocation.Header,

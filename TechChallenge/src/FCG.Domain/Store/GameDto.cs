@@ -1,6 +1,6 @@
 using FCG.Domain.Library;
 
-namespace FCG.Domain.Game;
+namespace FCG.Domain.Store;
 
 public class GameDto
 {
@@ -18,4 +18,9 @@ public class GameDto
     public bool IsActive { get; set; }
     
     public LibraryDto Library { get; set; } = null!;
+
+    public object ToGameResponse()
+    {
+        throw new NotImplementedException();
+    }
 }

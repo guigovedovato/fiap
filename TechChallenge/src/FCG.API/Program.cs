@@ -4,8 +4,7 @@ using FCG.API.Configuration.Middleware.CorrelationId;
 using FCG.API.Configuration.Middleware.GlobalExceptionHandling;
 using FCG.API.Configuration.Middleware.RequestLogging;
 using FCG.API.Configuration.Swagger;
-using FCG.API.Service.Cache;
-using MessagePack;
+using FCG.API.Controller;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +17,8 @@ builder.Host.UseSerilog((context, configuration) =>
 
 builder.Services.AddCorrelationIdGenerator();
 builder.Services.AddBaseLogging();
+
+builder.Services.AddServices();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddCacheService();
@@ -39,23 +40,15 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
-app.MapGet("/product", (ICacheService _cacheService) =>
-{
-    var key = "productList";
-
-    if (_cacheService.Get(key) is List<string> cachedProduct)
-    {
-        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(cachedProduct));
-    }
-
-    var productList = new List<string> { "Product 1", "Product 2" };
-
-    _cacheService.Set(key, productList);
-
-    return TypedResults.Ok(MessagePackSerializer.SerializeToJson(productList));
-})
-.WithName("Product")
-.WithOpenApi();
+app.MapGroup("/api/v1/")
+   .WithTags("Login endpoints")
+   .MapLoginEndpoints();
+app.MapGroup("/api/v1/")
+   .WithTags("User endpoints")
+   .MapUserEndpoints();
+app.MapGroup("/api/v1/")
+   .WithTags("Game endpoints")
+   .MapGameEndpoints();
 
 app.UseGlobalExceptionHandling();
 app.UseCorrelationMiddleware();

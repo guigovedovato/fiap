@@ -1,4 +1,4 @@
-using FCG.Domain.Game;
+using FCG.Domain.Store;
 
 namespace FCG.Domain.Library;
 

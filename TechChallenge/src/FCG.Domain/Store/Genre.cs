@@ -1,4 +1,4 @@
-namespace FCG.Domain.Game;
+namespace FCG.Domain.Store;
 
 public enum Genre
 {

@@ -16,13 +16,33 @@ API REST em .NET8 para gerenciar usuários e seus jogos adquiridos.
 
 * Baixe e instale o [.NET8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
-## Configuração do Banco de Dados
+## Iniciando
 
-* Altere a configuração da _connection string_ com as informações do teu banco de dados
-* Corra as **Migrations** para a criação do banco de dados:
-´´´
+* Clone o projeto
+
+``` dotnet
+git clone https://github.com/guigovedovato/fiap.git
+```
+
+* Navegue até a pasta do projeto
+
+``` dotnet
+cd TechChallenge
+```
+
+* Builde o projeto
+
+``` dotnet
+dotnet build
+```
+
+* Configure o Banco de Dados
+  * Altere a configuração da _connection string_ com as informações do teu banco de dados
+  * Corra as **Migrations** para a criação do banco de dados:
+
+``` dotnet
 db-update
-´´´
+```
 
 ## Execução
 

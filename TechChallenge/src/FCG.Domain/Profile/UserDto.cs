@@ -10,5 +10,7 @@ public class UserDto
     public required string Role { get; set; }
     public bool IsActive { get; set; }
     public required string Email { get; set; }
-    public required string Password { get; set; }
+    public string Password { get; set; } = string.Empty;
+
+    public UserResponse ToUserResponse() => new(Id, CreatedAt, UpdatedAt, FirstName, LastName, Role, Email, IsActive);
 }

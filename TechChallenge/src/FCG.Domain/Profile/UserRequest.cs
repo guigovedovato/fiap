@@ -22,4 +22,14 @@ public class UserRequest(string FirstName, string LastName, string Role, string 
 
     [Key(5)]
     public bool IsActive { get; set; } = IsActive;
+
+    public UserDto ToUserDto() => new()
+    {
+        FirstName = FirstName,
+        LastName = LastName,
+        Role = Role,
+        Email = Email,
+        Password = Password,
+        IsActive = IsActive
+    };
 }
