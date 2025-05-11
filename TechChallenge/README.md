@@ -48,6 +48,10 @@ db-update
 
 * Inicie a API
 
+``` dotnet
+dotnet run
+```
+
 ## API
 
 * Abra o **navegador** e acesse <http://localhost:5267> ou [clique aqui](http://localhost:5267)
