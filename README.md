@@ -17,7 +17,7 @@ Repository created for store my FIAP POS TECH in .NET SYSTEMS ARCHITECTURE proje
 
 ## Tech Challenge
 
-* [FIAP Cloud Game](./TechChallange)
+* [FIAP Cloud Game](./TechChallenge)
 
 ## Links
 
