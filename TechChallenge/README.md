@@ -8,8 +8,8 @@ API REST em .NET8 para gerenciar usuários e seus jogos adquiridos.
 
 * Para executar o programa com sucesso, é necessário:
   * Por favor, veja [Requisitos](#requisitos) para os requisitos deste projeto;
-  * Configure o banco de dados na seção [Configuração do Banco de Dados](#configuração do banco de dados);
-  * Como executar o aplicativo na seção [Execução](#execução);
+  * Baixe e configure a aplicação na seção [Iniciando](#iniciando);
+  * Como executar a aplicação na seção [Execução](#execução);
   * Veja a API na seção [API](#api);
 
 ## Requisitos
@@ -54,4 +54,4 @@ dotnet run
 
 ## API
 
-* Abra o **navegador** e acesse <http://localhost:5267> ou [clique aqui](http://localhost:5267)
+* Abra o **navegador** e acesse <http://localhost:5267/swagger/index.html> ou [clique aqui](http://localhost:5267/swagger/index.html)
