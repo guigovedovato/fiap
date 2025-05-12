@@ -16,6 +16,7 @@ public static class LoginController
     static async Task<IResult> Login(LoginRequest loginRequest, ILoginService loginService)
     {
         var loggedUser = await loginService.LoginAsync(loginRequest.ToLoginDto());
-        return string.IsNullOrWhiteSpace(loggedUser.Token) ? TypedResults.Unauthorized() : TypedResults.Ok(loggedUser.Token);
+        return string.IsNullOrWhiteSpace(loggedUser.Token) ? 
+            TypedResults.Unauthorized() : TypedResults.Ok(loggedUser.Token);
     }
 }

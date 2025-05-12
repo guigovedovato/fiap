@@ -1,13 +1,10 @@
+using FCG.Domain.Common;
 using FCG.Domain.Profile;
 
 namespace FCG.Domain.Library;
 
-public class LibraryModel
+public class LibraryModel : EntityBase
 {
-    public int Id { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-
     public bool Wishlist { get; set; }
 
     public int UserId { get; set; }

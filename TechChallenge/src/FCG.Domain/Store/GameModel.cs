@@ -1,13 +1,10 @@
+using FCG.Domain.Common;
 using FCG.Domain.Library;
 
 namespace FCG.Domain.Store;
 
-public class GameModel
+public class GameModel : EntityBase
 {
-    public int Id { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-
     public required string Name { get; set; }
     public required string Description { get; set; }
     public string ImageUrl { get; set; } = null!;

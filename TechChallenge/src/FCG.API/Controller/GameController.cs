@@ -27,9 +27,9 @@ public static class GameController
         gameGroup.MapPut("/{id}", UpdateGame).RequireAuthorization("Admin");
     }
 
-    static async Task<IResult> UpdateGame(int id, GameRequest GameRequest, IGameService _gameService)
+    static async Task<IResult> UpdateGame(int id, GameRequest gameRequest, IGameService _gameService)
     {
-        var success = await _gameService.UpdateGameAsync(id, GameRequest.ToGameDto());
+        var success = await _gameService.UpdateGameAsync(id, gameRequest.ToGameDto());
         return success is not null ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 
@@ -45,7 +45,7 @@ public static class GameController
         return TypedResults.Ok(MessagePackSerializer.SerializeToJson(Game.ToGameResponse()));
     }
 
-    static async Task<IResult> GetAllGames(IGameService _GameService, ICacheService _cacheService)
+    static async Task<IResult> GetAllGames(IGameService _gameService, ICacheService _cacheService)
     {
         var key = "GameList";
 
@@ -54,23 +54,23 @@ public static class GameController
             return TypedResults.Ok(MessagePackSerializer.SerializeToJson(cachedGame));
         }
 
-        // TODO: Retrurn to GameResponse
-        var GameList = await _GameService.GetAllGamesAsync();
+        var gameList = await _gameService.GetAllGamesAsync();
+        var gameListResponse = gameList.Select(x => x.ToGameResponse()).ToList();
 
-        _cacheService.Set(key, GameList);
+        _cacheService.Set(key, gameListResponse);
 
-        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(GameList));
+        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(gameListResponse));
     }
 
-    static async Task<IResult> CreateGame(GameRequest GameRequest, IGameService _GameService)
+    static async Task<IResult> CreateGame(GameRequest gameRequest, IGameService _gameService)
     {
-        var GameId = await _GameService.CreateGameAsync(GameRequest.ToGameDto());
-        return TypedResults.Created($"/Game/{GameId}", GameRequest);
+        var GameId = await _gameService.CreateGameAsync(gameRequest.ToGameDto());
+        return TypedResults.Created($"/Game/{GameId}", gameRequest);
     }
 
-    static async Task<IResult> DeleteGame(int id, IGameService _GameService)
+    static async Task<IResult> DeleteGame(int id, IGameService _gameService)
     {
-        var success = await _GameService.DeleteGameAsync(id);
+        var success = await _gameService.DeleteGameAsync(id);
         return success ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 }

@@ -1,17 +1,31 @@
 using FCG.Domain.Authentication;
+using FCG.Domain.Common;
+using System.Text.RegularExpressions;
 
 namespace FCG.Domain.Profile;
 
-public class UserModel
+public partial class UserModel : EntityBase
 {
-    public int Id { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
     public required string Role { get; set; }
     public bool IsActive { get; set; }
 
     public virtual LoginModel Login { get; set; } = null!;
+
+    public bool ValidateEmail()
+    {
+        return EmailValidationRegex().IsMatch(Login.Email);
+    }
+
+    public bool ValidatePassword()
+    {
+        return PasswordValidationRegex().IsMatch(Login.Password);
+    }
+
+    [GeneratedRegex(@"^[\w\.\-]+@([\w\-]+\.)+[\w\-]{2,}$", RegexOptions.CultureInvariant)]
+    private static partial Regex EmailValidationRegex();
+
+    [GeneratedRegex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$", RegexOptions.CultureInvariant)]
+    private static partial Regex PasswordValidationRegex();
 }

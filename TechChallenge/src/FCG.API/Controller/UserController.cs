@@ -53,12 +53,12 @@ public static class UserController
             return TypedResults.Ok(MessagePackSerializer.SerializeToJson(cachedUser));
         }
 
-        // TODO: Retrurn to UserResponse
         var userList = await _userService.GetAllUsersAsync();
+        var userResponseList = userList.Select(user => user.ToUserResponse()).ToList();
 
-        _cacheService.Set(key, userList);
+        _cacheService.Set(key, userResponseList);
 
-        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(userList));
+        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(userResponseList));
     }
 
     static async Task<IResult> CreateUser(UserRequest userRequest, IUserService _userService)
