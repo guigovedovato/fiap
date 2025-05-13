@@ -35,14 +35,14 @@ public static class GameController
 
     static async Task<IResult> GetGame(int id, IGameService _GameService)
     {
-        var Game = await _GameService.GetGameByIdAsync(id);
+        var game = await _GameService.GetGameByIdAsync(id);
 
-        if (Game == null)
+        if (game == null)
         {
             return TypedResults.NotFound();
         }
 
-        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(Game.ToGameResponse()));
+        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(game.ToGameResponse()));
     }
 
     static async Task<IResult> GetAllGames(IGameService _gameService, ICacheService _cacheService)
@@ -64,8 +64,8 @@ public static class GameController
 
     static async Task<IResult> CreateGame(GameRequest gameRequest, IGameService _gameService)
     {
-        var GameId = await _gameService.CreateGameAsync(gameRequest.ToGameDto());
-        return TypedResults.Created($"/Game/{GameId}", gameRequest);
+        var gameId = await _gameService.CreateGameAsync(gameRequest.ToGameDto());
+        return TypedResults.Created($"/Game/{gameId}", gameRequest);
     }
 
     static async Task<IResult> DeleteGame(int id, IGameService _gameService)

@@ -41,7 +41,7 @@ dotnet build
   * Corra as **Migrations** para a criação do banco de dados:
 
 ``` dotnet
-db-update
+dotnet ef database update
 ```
 
 ## Execução
