@@ -1,4 +1,5 @@
-﻿using FCG.Domain.Profile;
+﻿using FCG.Domain.Common.Response;
+using FCG.Domain.Profile;
 using FCG.Infrastructure.Cache;
 using MessagePack;
 
@@ -21,55 +22,61 @@ public static class UserController
             policy.SetVaryByRouteValue("user");
             policy.Expire(TimeSpan.FromMinutes(10));
         }).RequireAuthorization();
-        userGroup.MapPost("/", CreateUser).RequireAuthorization("Admin");
-        userGroup.MapDelete("/{id}", DeleteUser).RequireAuthorization("Admin");
-        userGroup.MapPut("/{id}", UpdateUser).RequireAuthorization("Admin");
+        userGroup.MapPost("/", CreateUser);
+        userGroup.MapDelete("/{id}", DeleteUser).RequireAuthorization();
+        userGroup.MapPut("/{id}", UpdateUser).RequireAuthorization();
     }
 
-    static async Task<IResult> UpdateUser(int id, UserRequest userRequest, IUserService _userService)
+    static async Task<IResult> UpdateUser(Guid id, UserRequest userRequest, IUserService _userService)
     {
-        var success = await _userService.UpdateUserAsync(id, userRequest.ToUserDto());
+        var success = await _userService.UpdateUserAsync(id, userRequest.ToUserDto(), new CancellationToken());
         return success is not null ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 
-    static async Task<IResult> GetUser(int id, IUserService _userService)
+    static async Task<IResult> GetUser(Guid id, IUserService _userService)
     {
-        var user = await _userService.GetUserByIdAsync(id);
+        var user = await _userService.GetUserByIdAsync(id, new CancellationToken());
 
         if (user == null)
         {
             return TypedResults.NotFound();
         }
 
-        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(user.ToUserResponse()));
+        return TypedResults.Ok(
+            MessagePackSerializer.SerializeToJson(
+                new ApiResponse<UserResponse>(user.ToUserResponse(), $"User {user} found.")));
     }
 
     static async Task<IResult> GetAllUsers(IUserService _userService, ICacheService _cacheService)
     {
         var key = "UserList";
 
-        if (_cacheService.Get(key) is List<string> cachedUser)
+        if (_cacheService.Get(key) is List<UserResponse> cachedUser)
         {
-            return TypedResults.Ok(MessagePackSerializer.SerializeToJson(cachedUser));
+            return TypedResults.Ok(
+                MessagePackSerializer.SerializeToJson(
+                    new ApiResponse<List<UserResponse>>(cachedUser, $"Users found.")));
         }
 
-        var userList = await _userService.GetAllUsersAsync();
-        var userResponseList = userList.Select(user => user.ToUserResponse()).ToList();
+        var userList = await _userService.GetAllUsersAsync(new CancellationToken());
+        var userListResponse = userList.Select(user => user.ToUserResponse()).ToList();
 
-        _cacheService.Set(key, userResponseList);
+        _cacheService.Set(key, userListResponse);
 
-        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(userResponseList));
+        return TypedResults.Ok(
+            MessagePackSerializer.SerializeToJson(
+                new ApiResponse<List<UserResponse>>(userListResponse, $"Users found.")));
     }
 
     static async Task<IResult> CreateUser(UserRequest userRequest, IUserService _userService)
     {
-        var userId = await _userService.CreateUserAsync(userRequest.ToUserDto());
+        var userId = await _userService.CreateUserAsync(userRequest.ToUserDto(), new CancellationToken());
         return TypedResults.Created($"/user/{userId}", userRequest);
     }
 
-    static async Task<IResult> DeleteUser(int id, IUserService _userService)
+    static async Task<IResult> DeleteUser(Guid id, IUserService _userService)
     {
-        var success = await _userService.DeleteUserAsync(id);
+        var success = await _userService.DeleteUserAsync(id, new CancellationToken());
         return success ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 }

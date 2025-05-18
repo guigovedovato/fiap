@@ -4,7 +4,7 @@ namespace FCG.Domain.Store;
 
 public class GameDto
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public required string Name { get; set; }
@@ -19,8 +19,20 @@ public class GameDto
     
     public LibraryDto Library { get; set; } = null!;
 
-    public object ToGameResponse()
+    public GameModel ToGameModel() => new()
     {
-        throw new NotImplementedException();
-    }
+        Id = Id,
+        CreatedAt = CreatedAt,
+        UpdatedAt = UpdatedAt,
+        Name = Name,
+        Description = Description,
+        ImageUrl = ImageUrl,
+        Genre = Genre,
+        IsDemo = IsDemo,
+        Publisher = Publisher,
+        ReleaseDate = ReleaseDate,
+        Price = Price
+    };
+
+    public GameResponse ToGameResponse() => new(Id, CreatedAt, UpdatedAt, Name, Description, ImageUrl, Genre, IsDemo, Publisher, ReleaseDate, Price, IsActive);
 }

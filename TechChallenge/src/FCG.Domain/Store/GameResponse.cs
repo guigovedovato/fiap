@@ -3,10 +3,10 @@ using MessagePack;
 namespace FCG.Domain.Store;
 
 [MessagePackObject]
-public class GameResponse(int Id, DateTime CreatedAt, DateTime UpdatedAt, string Name, string Description, string ImageUrl, Genre Genre, bool IsDemo, string Publisher, DateTime ReleaseDate, decimal Price, bool IsActive)
+public class GameResponse(Guid Id, DateTime CreatedAt, DateTime UpdatedAt, string Name, string Description, string ImageUrl, Genre Genre, bool IsDemo, string Publisher, DateTime ReleaseDate, decimal Price, bool IsActive)
 {
     [Key(0)]
-    public int Id { get; set; } = Id;
+    public Guid Id { get; set; } = Id;
 
     [Key(1)]
     public DateTime CreatedAt { get; set; } = CreatedAt;

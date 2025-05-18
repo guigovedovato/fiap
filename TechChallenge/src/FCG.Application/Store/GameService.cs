@@ -1,36 +1,52 @@
 ﻿using FCG.Domain.Store;
+using FCG.Infrastructure.Data.Repository;
+using FCG.Infrastructure.Log;
 
 namespace FCG.Application.Store;
 
-public class GameService : IGameService
+public class GameService(IGameRepository _gameRepository, BaseLogger _logger) : IGameService
 {
-    public Task<int> CreateGameAsync(GameDto gameDto)
+    public async Task<Guid> CreateGameAsync(GameDto gameDto, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Creating game: {gameDto.Name}");
+        var gameModel = gameDto.ToGameModel();
+        var response = await _gameRepository.AddAsync(gameModel, cancellationToken);
+        return response.Id;
     }
 
-    public Task<bool> DeleteGameAsync(int gameId)
+    public async Task<bool> DeleteGameAsync(Guid gameId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Deleting game with ID: {gameId}");
+        return await _gameRepository.DeleteAsync(gameId, cancellationToken);
     }
 
-    public Task<List<GameDto>> GetAllGamesAsync()
+    public async Task<IEnumerable<GameDto>> GetAllGamesAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation("Fetching all games");
+        var games = await _gameRepository.GetAllAsync(cancellationToken);
+        return games.Select(game => game.ToGameDto());
     }
 
-    public Task<List<GameResponse>> GetGameByFilterAsync(string filter)
+    public async Task<IEnumerable<GameDto>> GetGameByFilterAsync(Filter filter, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Fetching games with filter: {filter}");
+        var games = await _gameRepository.GetGameByFilterAsync(filter, cancellationToken);
+        return games.Select(game => game.ToGameDto());
     }
 
-    public Task<GameDto> GetGameByIdAsync(int gameId)
+    public async Task<GameDto> GetGameByIdAsync(Guid gameId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Fetching game with ID: {gameId}");
+        var game = await _gameRepository.GetByIdAsync(gameId, cancellationToken);
+        return game.ToGameDto();
     }
 
-    public Task<GameDto> UpdateGameAsync(int gameId, GameDto gameDto)
+    public async Task<GameDto> UpdateGameAsync(Guid gameId, GameDto gameDto, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Updating game with ID: {gameId}");
+        var gameModel = gameDto.ToGameModel();
+        gameModel.Id = gameId;
+        var response = await _gameRepository.UpdateAsync(gameId, gameModel, cancellationToken);
+        return response.ToGameDto();
     }
 }

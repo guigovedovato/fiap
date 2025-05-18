@@ -2,10 +2,10 @@
 
 public interface IGameService
 {
-    Task<GameDto> GetGameByIdAsync(int gameId);
-    Task<List<GameDto>> GetAllGamesAsync();
-    Task<int> CreateGameAsync(GameDto gameDto);
-    Task<bool> DeleteGameAsync(int gameId);
-    Task<GameDto> UpdateGameAsync(int gameId, GameDto gameDto);
-    Task<List<GameResponse>> GetGameByFilterAsync(string filter);
+    Task<GameDto> GetGameByIdAsync(Guid gameId, CancellationToken cancellationToken);
+    Task<IEnumerable<GameDto>> GetAllGamesAsync(CancellationToken cancellationToken);
+    Task<Guid> CreateGameAsync(GameDto gameDto, CancellationToken cancellationToken);
+    Task<bool> DeleteGameAsync(Guid gameId, CancellationToken cancellationToken);
+    Task<GameDto> UpdateGameAsync(Guid gameId, GameDto gameDto, CancellationToken cancellationToken);
+    Task<IEnumerable<GameDto>> GetGameByFilterAsync(Filter filter, CancellationToken cancellationToken);
 }

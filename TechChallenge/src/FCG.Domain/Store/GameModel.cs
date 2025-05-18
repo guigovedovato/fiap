@@ -13,9 +13,25 @@ public class GameModel : EntityBase
     public required string Publisher { get; set; }
     public DateTime ReleaseDate { get; set; }
     public decimal Price { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 
     public int LibraryId { get; set; }
 
     public virtual LibraryModel Library { get; set; } = null!;
+
+    public GameDto ToGameDto() => new()
+    {
+        Id = Id,
+        CreatedAt = CreatedAt,
+        UpdatedAt = UpdatedAt,
+        Name = Name,
+        Description = Description,
+        ImageUrl = ImageUrl,
+        Genre = Genre,
+        IsDemo = IsDemo,
+        Publisher = Publisher,
+        ReleaseDate = ReleaseDate,
+        Price = Price,
+        IsActive = IsActive
+    };
 }

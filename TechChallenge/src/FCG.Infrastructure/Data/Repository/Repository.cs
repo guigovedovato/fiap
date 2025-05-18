@@ -6,19 +6,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FCG.Infrastructure.Data.Repository;
 
-public class Repository<T>(ApplicationDbContext context, BaseLogger baseLogger) : IRepository<T> where T : EntityBase
+public class Repository<T>(ApplicationDbContext _context, BaseLogger _logger) : IRepository<T> where T : EntityBase
 {
-    protected readonly BaseLogger _logger = baseLogger;
-    protected readonly ApplicationDbContext _context = context;
-    protected readonly DbSet<T> _dbSet = context.Set<T>();
+    protected readonly BaseLogger _logger = _logger;
+    protected readonly ApplicationDbContext _context = _context;
+    protected readonly DbSet<T> _dbSet = _context.Set<T>();
 
-    public async Task<T> AddAsync(T entity)
+    public async Task<T> AddAsync(T entity, CancellationToken cancellationToken)
     {
         try
         {
             entity.CreatedAt = DateTime.UtcNow;
             _dbSet.Add(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             _logger.LogInformation($"{typeof(T)} added successfully.");
 
             return entity;
@@ -30,11 +30,11 @@ public class Repository<T>(ApplicationDbContext context, BaseLogger baseLogger) 
         }
     }
 
-    public async Task<T?> UpdateAsync(Guid id, T entity)
+    public async Task<T> UpdateAsync(Guid id, T entity, CancellationToken cancellationToken)
     {
         try
         {
-            var existingEntity = await _dbSet.FindAsync(id);
+            var existingEntity = await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
             if (existingEntity == null)
             {
                 _logger.LogWarning($"{typeof(T)} with ID {id} not found.");
@@ -44,7 +44,7 @@ public class Repository<T>(ApplicationDbContext context, BaseLogger baseLogger) 
             entity.Id = id;
             entity.UpdatedAt = DateTime.UtcNow;
             _dbSet.Update(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return entity;
         }
@@ -55,11 +55,11 @@ public class Repository<T>(ApplicationDbContext context, BaseLogger baseLogger) 
         }
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
         try
         {
-            var entity = await _dbSet.FindAsync(id);
+            var entity = await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
             if (entity == null)
             {
                 _logger.LogWarning($"{typeof(T)} with ID {id} not found.");
@@ -67,7 +67,7 @@ public class Repository<T>(ApplicationDbContext context, BaseLogger baseLogger) 
             }
 
             _dbSet.Remove(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             _logger.LogInformation($"{typeof(T)} with ID {id} deleted successfully.");
 
             return true;
@@ -79,11 +79,11 @@ public class Repository<T>(ApplicationDbContext context, BaseLogger baseLogger) 
         }
     }
 
-    public async Task<T?> GetByIdAsync(Guid id)
+    public async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         try
         {
-            var entity = await _dbSet.FindAsync(id);
+            var entity = await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
             if (entity == null)
             {
                 _logger.LogWarning($"{typeof(T)} with ID {id} not found.");
@@ -99,11 +99,11 @@ public class Repository<T>(ApplicationDbContext context, BaseLogger baseLogger) 
         }
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken)
     {
         try
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.ToListAsync(cancellationToken);
         }
         catch (Exception ex)
         {

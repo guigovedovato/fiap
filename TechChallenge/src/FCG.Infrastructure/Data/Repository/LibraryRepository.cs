@@ -4,6 +4,6 @@ using FCG.Infrastructure.Log;
 
 namespace FCG.Infrastructure.Data.Repository;
 
-public class LibraryRepository(ApplicationDbContext context, BaseLogger baseLogger) : Repository<LibraryModel>(context, baseLogger), ILibraryRepository
+public class LibraryRepository(ApplicationDbContext _context, BaseLogger _logger) : Repository<LibraryModel>(_context, _logger), ILibraryRepository
 {
 }

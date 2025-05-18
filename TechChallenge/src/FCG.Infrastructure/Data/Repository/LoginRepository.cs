@@ -4,6 +4,6 @@ using FCG.Infrastructure.Log;
 
 namespace FCG.Infrastructure.Data.Repository;
 
-public class LoginRepository(ApplicationDbContext context, BaseLogger baseLogger) : Repository<LoginModel>(context, baseLogger), ILoginRepository
+public class LoginRepository(ApplicationDbContext _context, BaseLogger _logger) : Repository<LoginModel>(_context, _logger), ILoginRepository
 {
 }

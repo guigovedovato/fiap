@@ -8,8 +8,8 @@ public partial class UserModel : EntityBase
 {
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
-    public required string Role { get; set; }
-    public bool IsActive { get; set; }
+    public required Role Role { get; set; }
+    public bool IsActive { get; set; } = true;
 
     public virtual LoginModel Login { get; set; } = null!;
 
@@ -28,4 +28,13 @@ public partial class UserModel : EntityBase
 
     [GeneratedRegex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$", RegexOptions.CultureInvariant)]
     private static partial Regex PasswordValidationRegex();
+
+    public UserDto ToUserDto() => new()
+    {
+        FirstName = FirstName,
+        LastName = LastName,
+        Role = Role,
+        Email = Login.Email,
+        IsActive = IsActive
+    };
 }

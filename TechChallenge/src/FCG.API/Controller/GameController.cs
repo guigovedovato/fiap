@@ -1,4 +1,5 @@
-﻿using FCG.Domain.Store;
+﻿using FCG.Domain.Common.Response;
+using FCG.Domain.Store;
 using FCG.Infrastructure.Cache;
 using MessagePack;
 
@@ -27,50 +28,56 @@ public static class GameController
         gameGroup.MapPut("/{id}", UpdateGame).RequireAuthorization("Admin");
     }
 
-    static async Task<IResult> UpdateGame(int id, GameRequest gameRequest, IGameService _gameService)
+    static async Task<IResult> UpdateGame(Guid id, GameRequest gameRequest, IGameService _gameService)
     {
-        var success = await _gameService.UpdateGameAsync(id, gameRequest.ToGameDto());
+        var success = await _gameService.UpdateGameAsync(id, gameRequest.ToGameDto(), new CancellationToken());
         return success is not null ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 
-    static async Task<IResult> GetGame(int id, IGameService _GameService)
+    static async Task<IResult> GetGame(Guid id, IGameService _GameService)
     {
-        var game = await _GameService.GetGameByIdAsync(id);
+        var game = await _GameService.GetGameByIdAsync(id, new CancellationToken());
 
         if (game == null)
         {
             return TypedResults.NotFound();
         }
 
-        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(game.ToGameResponse()));
+        return TypedResults.Ok(
+            MessagePackSerializer.SerializeToJson(
+                new ApiResponse<GameResponse>(game.ToGameResponse(), $"Game {game.Name} found.")));
     }
 
     static async Task<IResult> GetAllGames(IGameService _gameService, ICacheService _cacheService)
     {
         var key = "GameList";
 
-        if (_cacheService.Get(key) is List<string> cachedGame)
+        if (_cacheService.Get(key) is List<GameResponse> cachedGame)
         {
-            return TypedResults.Ok(MessagePackSerializer.SerializeToJson(cachedGame));
+            return TypedResults.Ok(
+                MessagePackSerializer.SerializeToJson(
+                    new ApiResponse<List<GameResponse>>(cachedGame, $"Games found.")));
         }
 
-        var gameList = await _gameService.GetAllGamesAsync();
+        var gameList = await _gameService.GetAllGamesAsync(new CancellationToken());
         var gameListResponse = gameList.Select(x => x.ToGameResponse()).ToList();
 
         _cacheService.Set(key, gameListResponse);
 
-        return TypedResults.Ok(MessagePackSerializer.SerializeToJson(gameListResponse));
+        return TypedResults.Ok(
+            MessagePackSerializer.SerializeToJson(
+                new ApiResponse<List<GameResponse>>(gameListResponse, $"Games found.")));
     }
 
     static async Task<IResult> CreateGame(GameRequest gameRequest, IGameService _gameService)
     {
-        var gameId = await _gameService.CreateGameAsync(gameRequest.ToGameDto());
+        var gameId = await _gameService.CreateGameAsync(gameRequest.ToGameDto(), new CancellationToken());
         return TypedResults.Created($"/Game/{gameId}", gameRequest);
     }
 
-    static async Task<IResult> DeleteGame(int id, IGameService _gameService)
+    static async Task<IResult> DeleteGame(Guid id, IGameService _gameService)
     {
-        var success = await _gameService.DeleteGameAsync(id);
+        var success = await _gameService.DeleteGameAsync(id, new CancellationToken());
         return success ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 }

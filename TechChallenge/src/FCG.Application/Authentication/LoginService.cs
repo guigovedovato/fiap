@@ -6,7 +6,7 @@ namespace FCG.Application.Authentication;
 public class LoginService(IJwtTokenGenerator _jwtGenerator) : ILoginService
 {
     // TODO: Implement a real authentication service
-    public async Task<LoginDto> LoginAsync(LoginDto loginDto)
+    public async Task<LoginDto> LoginAsync(LoginDto loginDto, CancellationToken cancellationToken)
     {
         if (loginDto.Email.Equals("admin") && loginDto.Password.Equals("admin"))
         {
@@ -32,7 +32,7 @@ public class LoginService(IJwtTokenGenerator _jwtGenerator) : ILoginService
         }
     }
 
-    public Task<LoginDto> LogoutAsync(LoginDto loginDto)
+    public Task<LoginDto> LogoutAsync(LoginDto loginDto, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
