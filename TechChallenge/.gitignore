@@ -1,4 +1,3 @@
-
 # .NET
 ## Arquivos gerados pelo MSBuild
 .vs
@@ -44,3 +43,7 @@ packages/
 
 # Pasta gerada pelo Visual Studio ao depurar
 ipch/
+
+# SQLite
+*.db
+*.db*

@@ -11,6 +11,8 @@ public partial class UserModel : EntityBase
     public required Role Role { get; set; }
     public bool IsActive { get; set; } = true;
 
+    public Guid LoginId { get; set; }
+
     public virtual LoginModel Login { get; set; } = null!;
 
     public bool ValidateEmail()
@@ -31,6 +33,9 @@ public partial class UserModel : EntityBase
 
     public UserDto ToUserDto() => new()
     {
+        Id = Id,
+        CreatedAt = CreatedAt,
+        UpdatedAt = UpdatedAt,
         FirstName = FirstName,
         LastName = LastName,
         Role = Role,

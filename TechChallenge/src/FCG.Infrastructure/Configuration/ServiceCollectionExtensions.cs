@@ -35,10 +35,11 @@ public static class ServiceCollectionExtensions
 
     private static void AddSqlContext(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(options =>
-        {
-            options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
-            options.UseLazyLoadingProxies();
-        }, ServiceLifetime.Scoped);
+        services
+            .AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                options.UseLazyLoadingProxies();
+            }, ServiceLifetime.Scoped);
     }
 }

@@ -38,10 +38,10 @@ dotnet build
 
 * Configure o Banco de Dados
   * Altere a configuração da _connection string_ com as informações do teu banco de dados
-  * Corra as **Migrations** para a criação do banco de dados:
+  * Corra as **Migrations**, na folder de Infrastructure para a criação do banco de dados:
 
 ``` dotnet
-dotnet ef database update
+Update-Database -Project FCG.Infrastructure -s FCG.API
 ```
 
 ## Execução

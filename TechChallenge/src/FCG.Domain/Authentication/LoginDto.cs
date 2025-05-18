@@ -4,13 +4,12 @@ namespace FCG.Domain.Authentication;
 
 public class LoginDto
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public required string Email { get; set; }
     public string Password { get; set; } = string.Empty;
     public string Token { get; set; } = null!;
-    public Guid CorrelationId { get; set; }
 
     public UserDto User { get; set; } = null!;
 }

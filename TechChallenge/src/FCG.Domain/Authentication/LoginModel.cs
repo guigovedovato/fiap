@@ -8,7 +8,5 @@ public class LoginModel : EntityBase
     public required string Email { get; set; }
     public required string Password { get; set; }
 
-    public int UserId { get; set; }
-
     public virtual UserModel User { get; set; } = null!;
 }

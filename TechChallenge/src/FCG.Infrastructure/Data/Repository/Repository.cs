@@ -16,6 +16,7 @@ public class Repository<T>(ApplicationDbContext _context, BaseLogger _logger) : 
     {
         try
         {
+            entity.Id = Guid.NewGuid();
             entity.CreatedAt = DateTime.UtcNow;
             _dbSet.Add(entity);
             await _context.SaveChangesAsync(cancellationToken);

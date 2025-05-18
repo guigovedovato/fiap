@@ -1,5 +1,3 @@
-using MessagePack;
-
 namespace FCG.Domain.Profile;
 
 public class UserRequest(string FirstName, string LastName, Role Role, string Email, string Password)

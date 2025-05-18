@@ -1,5 +1,3 @@
-using MessagePack;
-
 namespace FCG.Domain.Store;
 
 public class GameRequest(string Name, string Description, string ImageUrl, Genre Genre, string Publisher, DateTime ReleaseDate, decimal Price, bool IsDemo = false)

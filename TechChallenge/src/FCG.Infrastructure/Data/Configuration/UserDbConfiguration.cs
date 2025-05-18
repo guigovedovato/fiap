@@ -1,4 +1,5 @@
-﻿using FCG.Domain.Profile;
+﻿using FCG.Domain.Authentication;
+using FCG.Domain.Profile;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,11 +9,22 @@ public class UserDbConfiguration : IEntityTypeConfiguration<UserModel>
 {
     public void Configure(EntityTypeBuilder<UserModel> builder)
     {
+        builder.ToTable("Users");
         builder.HasKey(u => u.Id);
-        builder.Property(u => u.CreatedAt).IsRequired();
-        builder.Property(u => u.UpdatedAt).IsRequired();
+        builder.Property(u => u.CreatedAt);
+        builder.Property(u => u.UpdatedAt);
 
         builder.Property(u => u.FirstName).IsRequired().HasMaxLength(50);
         builder.Property(u => u.LastName).IsRequired().HasMaxLength(50);
+        builder.Property(u => u.Role).IsRequired().HasConversion<string>();
+        builder.Property(u => u.IsActive).IsRequired().HasDefaultValue(true);
+        builder.Property(u => u.LoginId).IsRequired();
+
+        // Relationships
+        builder.HasOne(c => c.Login)
+            .WithOne(c => c.User)
+            .HasForeignKey<UserModel>(c => c.LoginId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
