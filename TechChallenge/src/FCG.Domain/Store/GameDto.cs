@@ -21,7 +21,6 @@ public class GameDto
 
     public GameModel ToGameModel() => new()
     {
-        Id = Id,
         CreatedAt = CreatedAt,
         UpdatedAt = UpdatedAt,
         Name = Name,

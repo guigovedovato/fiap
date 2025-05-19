@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FCG.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250518163441_IntialMigration")]
-    partial class IntialMigration
+    [Migration("20250519190502_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,20 +77,12 @@ namespace FCG.Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("UserId1")
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("Wishlist")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LibraryItemModelId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Library", (string)null);
                 });
@@ -165,15 +157,6 @@ namespace FCG.Infrastructure.Data.Migrations
                     b.Property<bool>("IsDemo")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LibraryId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("LibraryId1")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("LibraryItemModelId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -195,10 +178,6 @@ namespace FCG.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LibraryId1");
-
-                    b.HasIndex("LibraryItemModelId");
-
                     b.ToTable("Games", (string)null);
                 });
 
@@ -210,15 +189,7 @@ namespace FCG.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FCG.Domain.Profile.UserModel", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Item");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FCG.Domain.Profile.UserModel", b =>
@@ -232,30 +203,10 @@ namespace FCG.Infrastructure.Data.Migrations
                     b.Navigation("Login");
                 });
 
-            modelBuilder.Entity("FCG.Domain.Store.GameModel", b =>
-                {
-                    b.HasOne("FCG.Domain.Library.LibraryModel", "Library")
-                        .WithMany()
-                        .HasForeignKey("LibraryId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FCG.Domain.Library.LibraryItemModel", null)
-                        .WithMany("Games")
-                        .HasForeignKey("LibraryItemModelId");
-
-                    b.Navigation("Library");
-                });
-
             modelBuilder.Entity("FCG.Domain.Authentication.LoginModel", b =>
                 {
                     b.Navigation("User")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FCG.Domain.Library.LibraryItemModel", b =>
-                {
-                    b.Navigation("Games");
                 });
 #pragma warning restore 612, 618
         }

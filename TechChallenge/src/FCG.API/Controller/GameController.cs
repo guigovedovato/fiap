@@ -38,7 +38,7 @@ public static class GameController
     {
         var game = await _GameService.GetGameByIdAsync(id, new CancellationToken());
 
-        if (game == null)
+        if (game is null)
         {
             return TypedResults.NotFound();
         }

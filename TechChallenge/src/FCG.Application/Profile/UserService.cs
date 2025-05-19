@@ -9,6 +9,14 @@ public class UserService(IUserRepository _userRepository, ILoginRepository _logi
     public async Task<Guid> CreateUserAsync(UserDto userDto, CancellationToken cancellationToken)
     {
         _logger.LogInformation($"Creating user: {userDto}");
+
+        var loginModel = await _loginRepository.GetByEmailAsync(userDto.Email, cancellationToken);
+        if (loginModel is not null)
+        {
+            _logger.LogError($"User with email {userDto.Email} already exists");
+            throw new ArgumentException("User with this email already exists");
+        }
+
         var userModel = userDto.ToUserModel();
 
         if (!userModel.ValidateEmail())
@@ -22,12 +30,7 @@ public class UserService(IUserRepository _userRepository, ILoginRepository _logi
             throw new ArgumentException("Invalid password format");
         }
 
-        if (await _loginRepository.ExistsAsync(userModel.Login.Email, cancellationToken))
-        {
-            _logger.LogError($"User with email {userModel.Login.Email} already exists");
-            throw new ArgumentException("User with this email already exists");
-        }
-
+        userModel.Login.HashPassword();
         var login = await _loginRepository.AddAsync(userModel.Login, cancellationToken);
         userModel.Login = login;
 

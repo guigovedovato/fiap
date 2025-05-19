@@ -36,7 +36,7 @@ public class Repository<T>(ApplicationDbContext _context, BaseLogger _logger) : 
         try
         {
             var existingEntity = await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
-            if (existingEntity == null)
+            if (existingEntity is null)
             {
                 _logger.LogWarning($"{typeof(T)} with ID {id} not found.");
                 throw new EntityDoesNotExistException(id, typeof(T));
@@ -61,7 +61,7 @@ public class Repository<T>(ApplicationDbContext _context, BaseLogger _logger) : 
         try
         {
             var entity = await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
-            if (entity == null)
+            if (entity is null)
             {
                 _logger.LogWarning($"{typeof(T)} with ID {id} not found.");
                 throw new EntityDoesNotExistException(id, typeof(T));
@@ -85,7 +85,7 @@ public class Repository<T>(ApplicationDbContext _context, BaseLogger _logger) : 
         try
         {
             var entity = await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
-            if (entity == null)
+            if (entity is null)
             {
                 _logger.LogWarning($"{typeof(T)} with ID {id} not found.");
                 throw new EntityDoesNotExistException(id, typeof(T));

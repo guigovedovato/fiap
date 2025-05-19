@@ -23,6 +23,6 @@ public class GameDbConfiguration : IEntityTypeConfiguration<GameModel>
         builder.Property(g => g.Price).IsRequired().HasColumnType("decimal(18,2)");
         builder.Property(g => g.IsActive).IsRequired();
 
-        builder.Property(g => g.LibraryId).IsRequired();
+        //builder.Property(g => g.LibraryId).IsRequired();
     }
 }

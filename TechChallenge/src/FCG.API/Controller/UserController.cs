@@ -37,7 +37,7 @@ public static class UserController
     {
         var user = await _userService.GetUserByIdAsync(id, new CancellationToken());
 
-        if (user == null)
+        if (user is null)
         {
             return TypedResults.NotFound();
         }

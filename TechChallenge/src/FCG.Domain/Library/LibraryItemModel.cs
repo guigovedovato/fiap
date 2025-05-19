@@ -6,5 +6,5 @@ public class LibraryItemModel
 {
     public int Id { get; set; }
 
-    public virtual IEnumerable<GameModel> Games { get; set; } = null!;
+    //public virtual IEnumerable<GameModel> Games { get; set; } = null!;
 }

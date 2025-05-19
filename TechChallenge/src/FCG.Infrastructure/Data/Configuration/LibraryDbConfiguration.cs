@@ -13,7 +13,7 @@ public class LibraryDbConfiguration : IEntityTypeConfiguration<LibraryModel>
         builder.Property(l => l.CreatedAt);
         builder.Property(l => l.UpdatedAt);
 
-        builder.Property(l => l.UserId).IsRequired();
+        //builder.Property(l => l.UserId).IsRequired();
         builder.Property(l => l.LibraryItemModelId).IsRequired();
     }
 }
