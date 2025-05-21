@@ -30,8 +30,11 @@ public static class GameController
 
     static async Task<IResult> UpdateGame(Guid id, GameRequest gameRequest, IGameService _gameService)
     {
-        var success = await _gameService.UpdateGameAsync(id, gameRequest.ToGameDto(), new CancellationToken());
-        return success is not null ? TypedResults.NoContent() : TypedResults.NotFound();
+        var game = await _gameService.UpdateGameAsync(id, gameRequest.ToGameDto(), new CancellationToken());
+        return game.Data is not null ? TypedResults.NoContent() : 
+            TypedResults.BadRequest(
+            MessagePackSerializer.SerializeToJson(
+                new ApiResponse<GameResponse>(null, game.Message)));
     }
 
     static async Task<IResult> GetGame(Guid id, IGameService _GameService)
@@ -71,8 +74,11 @@ public static class GameController
 
     static async Task<IResult> CreateGame(GameRequest gameRequest, IGameService _gameService)
     {
-        var gameId = await _gameService.CreateGameAsync(gameRequest.ToGameDto(), new CancellationToken());
-        return TypedResults.Created($"/Game/{gameId}", gameRequest);
+        var game = await _gameService.CreateGameAsync(gameRequest.ToGameDto(), new CancellationToken());
+        return game.Data is not null ? TypedResults.Created($"/Game/{game.Data.Id}", game.Data) :
+            TypedResults.BadRequest(
+            MessagePackSerializer.SerializeToJson(
+                new ApiResponse<GameResponse>(null, game.Message)));
     }
 
     static async Task<IResult> DeleteGame(Guid id, IGameService _gameService)

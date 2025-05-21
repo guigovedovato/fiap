@@ -14,6 +14,7 @@ public class LoginDbConfiguration : IEntityTypeConfiguration<LoginModel>
         builder.Property(l => l.UpdatedAt);
 
         builder.Property(l => l.Email).IsRequired().HasMaxLength(100);
+        builder.HasIndex(l => l.Email).IsUnique();
         builder.Property(l => l.Password).IsRequired().HasMaxLength(100);
     }
 }

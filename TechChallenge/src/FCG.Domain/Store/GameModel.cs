@@ -3,7 +3,7 @@ using FCG.Domain.Library;
 
 namespace FCG.Domain.Store;
 
-public class GameModel : EntityBase
+public record GameModel : EntityBase
 {
     public required string Name { get; set; }
     public required string Description { get; set; }

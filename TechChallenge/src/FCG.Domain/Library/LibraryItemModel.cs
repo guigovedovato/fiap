@@ -2,7 +2,7 @@ using FCG.Domain.Store;
 
 namespace FCG.Domain.Library;
 
-public class LibraryItemModel
+public record LibraryItemModel
 {
     public int Id { get; set; }
 

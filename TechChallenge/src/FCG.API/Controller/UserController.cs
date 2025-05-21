@@ -1,5 +1,6 @@
 ﻿using FCG.Domain.Common.Response;
 using FCG.Domain.Profile;
+using FCG.Domain.Store;
 using FCG.Infrastructure.Cache;
 using MessagePack;
 
@@ -29,8 +30,11 @@ public static class UserController
 
     static async Task<IResult> UpdateUser(Guid id, UserRequest userRequest, IUserService _userService)
     {
-        var success = await _userService.UpdateUserAsync(id, userRequest.ToUserDto(), new CancellationToken());
-        return success is not null ? TypedResults.NoContent() : TypedResults.NotFound();
+        var user = await _userService.UpdateUserAsync(id, userRequest.ToUserDto(), new CancellationToken());
+        return user.Data is not null ? TypedResults.NoContent() :
+            TypedResults.BadRequest(
+            MessagePackSerializer.SerializeToJson(
+                new ApiResponse<GameResponse>(null, user.Message)));
     }
 
     static async Task<IResult> GetUser(Guid id, IUserService _userService)
@@ -70,8 +74,11 @@ public static class UserController
 
     static async Task<IResult> CreateUser(UserRequest userRequest, IUserService _userService)
     {
-        var userId = await _userService.CreateUserAsync(userRequest.ToUserDto(), new CancellationToken());
-        return TypedResults.Created($"/user/{userId}", userRequest);
+        var user = await _userService.CreateUserAsync(userRequest.ToUserDto(), new CancellationToken());
+        return user.Data is not null ? TypedResults.Created($"/user/{user.Data.Id}", user.Data) :
+            TypedResults.BadRequest(
+            MessagePackSerializer.SerializeToJson(
+                new ApiResponse<GameResponse>(null, user.Message)));
     }
 
     static async Task<IResult> DeleteUser(Guid id, IUserService _userService)

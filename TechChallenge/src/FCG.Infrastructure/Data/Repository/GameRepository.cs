@@ -1,4 +1,5 @@
-﻿using FCG.Domain.Store;
+﻿using FCG.Domain.Authentication;
+using FCG.Domain.Store;
 using FCG.Infrastructure.Data.Context;
 using FCG.Infrastructure.Log;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,19 @@ public class GameRepository(ApplicationDbContext _context, BaseLogger _logger) :
         catch (Exception ex)
         {
             _logger.LogError($"Error retrieving all filtered Games: {ex.Message}");
+            throw;
+        }
+    }
+
+    public async Task<GameModel?> GetGameByNameAsync(string name, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await _dbSet.FirstOrDefaultAsync(x => x.Name.Equals(name), cancellationToken: cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error retrieving {typeof(GameModel)} with name {name}: {ex.Message}");
             throw;
         }
     }

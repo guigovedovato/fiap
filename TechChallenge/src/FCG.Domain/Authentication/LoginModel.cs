@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace FCG.Domain.Authentication;
 
-public class LoginModel : EntityBase
+public record LoginModel : EntityBase
 {
     public required string Email { get; set; }
     public required string Password { get; set; }

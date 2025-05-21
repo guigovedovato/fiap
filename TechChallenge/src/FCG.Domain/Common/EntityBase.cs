@@ -1,6 +1,6 @@
 ﻿namespace FCG.Domain.Common;
 
-public class EntityBase
+public record EntityBase
 {
     public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }

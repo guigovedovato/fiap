@@ -1,4 +1,5 @@
-﻿using FCG.Domain.Profile;
+﻿using FCG.Domain.Common.Response;
+using FCG.Domain.Profile;
 using FCG.Infrastructure.Data.Repository;
 using FCG.Infrastructure.Log;
 
@@ -6,7 +7,7 @@ namespace FCG.Application.Profile;
 
 public class UserService(IUserRepository _userRepository, ILoginRepository _loginRepository, BaseLogger _logger) : IUserService
 {
-    public async Task<Guid> CreateUserAsync(UserDto userDto, CancellationToken cancellationToken)
+    public async Task<ResponseDto<UserDto>> CreateUserAsync(UserDto userDto, CancellationToken cancellationToken)
     {
         _logger.LogInformation($"Creating user: {userDto}");
 
@@ -14,7 +15,7 @@ public class UserService(IUserRepository _userRepository, ILoginRepository _logi
         if (loginModel is not null)
         {
             _logger.LogError($"User with email {userDto.Email} already exists");
-            throw new ArgumentException("User with this email already exists");
+            return new(null, "User with this email already exists");
         }
 
         var userModel = userDto.ToUserModel();
@@ -22,20 +23,21 @@ public class UserService(IUserRepository _userRepository, ILoginRepository _logi
         if (!userModel.ValidateEmail())
         {
             _logger.LogError($"Invalid email format for user: {userDto}");
-            throw new ArgumentException("Invalid email format");
+            return new(null, "Invalid email format");
         }
         if (!userModel.ValidatePassword())
         {
             _logger.LogError($"Invalid password format for user: {userDto}");
-            throw new ArgumentException("Invalid password format");
+            return new(null, "Invalid password format");
         }
 
         userModel.Login.HashPassword();
         var login = await _loginRepository.AddAsync(userModel.Login, cancellationToken);
-        userModel.Login = login;
 
         var response = await _userRepository.AddAsync(userModel, cancellationToken);
-        return response.Id;
+
+        response.Login = login;
+        return new(response.ToUserDto(), string.Empty);
     }
 
     public async Task<bool> DeleteUserAsync(Guid userId, CancellationToken cancellationToken)
@@ -58,7 +60,7 @@ public class UserService(IUserRepository _userRepository, ILoginRepository _logi
         return user.ToUserDto();
     }
 
-    public async Task<UserDto> UpdateUserAsync(Guid userId, UserDto userDto, CancellationToken cancellationToken)
+    public async Task<ResponseDto<UserDto>> UpdateUserAsync(Guid userId, UserDto userDto, CancellationToken cancellationToken)
     {
         _logger.LogInformation($"Updating user with ID: {userId}");
         var userModel = userDto.ToUserModel();
@@ -67,15 +69,15 @@ public class UserService(IUserRepository _userRepository, ILoginRepository _logi
         if (!userModel.ValidateEmail())
         {
             _logger.LogError($"Invalid email format for user: {userDto}");
-            throw new ArgumentException("Invalid email format");
+            return new(null, "Invalid email format");
         }
         if (!userModel.ValidatePassword())
         {
             _logger.LogError($"Invalid password format for user: {userDto}");
-            throw new ArgumentException("Invalid password format");
+            return new(null, "Invalid password format");
         }
 
         var response = await _userRepository.UpdateAsync(userId, userModel, cancellationToken);
-        return response.ToUserDto();
+        return new(response.ToUserDto(), string.Empty);
     }
 }

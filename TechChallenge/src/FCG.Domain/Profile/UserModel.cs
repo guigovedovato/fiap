@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace FCG.Domain.Profile;
 
-public partial class UserModel : EntityBase
+public partial record UserModel : EntityBase
 {
     public required string FirstName { get; set; }
     public required string LastName { get; set; }

@@ -3,7 +3,7 @@ using FCG.Domain.Profile;
 
 namespace FCG.Domain.Library;
 
-public class LibraryModel : EntityBase
+public record LibraryModel : EntityBase
 {
     public bool Wishlist { get; set; }
 

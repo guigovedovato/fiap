@@ -1,7 +1,9 @@
 namespace FCG.Domain.Profile;
 
-public class UserRequest(string FirstName, string LastName, Role Role, string Email, string Password)
+public class UserRequest(Guid id, string FirstName, string LastName, Role Role, string Email, string Password)
 {
+    public Guid Id { get; set; } = id;
+
     public string FirstName { get; set; } = FirstName;
 
     public string LastName { get; set; } = LastName;
@@ -14,6 +16,7 @@ public class UserRequest(string FirstName, string LastName, Role Role, string Em
 
     public UserDto ToUserDto() => new()
     {
+        Id = Id,
         FirstName = FirstName,
         LastName = LastName,
         Role = Role,
