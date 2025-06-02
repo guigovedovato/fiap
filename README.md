@@ -23,7 +23,7 @@ Repository created for store my FIAP POS TECH in .NET SYSTEMS ARCHITECTURE proje
 
 ### Github Actions
 
-* [CI/CD](.Fase2/Github Actions)
+* [CI/CD](./Fase2/Github Actions)
 
 ## Links
 
