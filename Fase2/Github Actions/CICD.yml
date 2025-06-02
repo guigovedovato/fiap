@@ -1,0 +1,66 @@
+name: CI/CD Pipeline
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --configuration Release
+
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to development environment
+        run: echo "Deploying to development environment..."
+        # Add your deployment script or command here
+      - name: Notify deployment success
+        run: echo "Deployment to development environment successful!"
+        # You can add a notification step here, e.g., sending a message to Slack or email
+      - name: Clean up
+        run: echo "Cleaning up after deployment..."
+        # Add any cleanup commands if necessary
+      - name: Post-deployment verification
+        run: echo "Running post-deployment verification..."
+        # Add commands to verify the deployment, e.g., checking service status or running smoke tests
+      - name: Notify post-deployment success
+        run: echo "Post-deployment verification successful!"
+        # You can add a notification step here, e.g., sending a message to Slack or email
+      - name: Finalize deployment
+        run: echo "Finalizing deployment..."
+        # Add any finalization commands if necessary, e.g., updating documentation or notifying stakeholders
+      - name: Notify deployment completion
+        run: echo "Deployment process completed successfully!"
+        # You can add a notification step here, e.g., sending a message to Slack or email
+      - name: Archive build artifacts
+        run: echo "Archiving build artifacts..."
+        # Add commands to archive build artifacts, e.g., zipping files or uploading to a storage service
+      - name: Notify archive success
+        run: echo "Build artifacts archived successfully!"
+        # You can add a notification step here, e.g., sending a message to Slack or email
+      - name: Cleanup temporary files
+        run: echo "Cleaning up temporary files..."
+        # Add commands to clean up temporary files, e.g., deleting build directories or temporary storage
+      - name: Notify cleanup success
+        run: echo "Temporary files cleaned up successfully!"
+        # You can add a notification step here, e.g., sending a message to Slack or email
+      - name: Final notification
+        run: echo "CI/CD pipeline completed successfully!"
+        # You can add a final notification step here, e.g., sending a message to Slack or email
