@@ -19,6 +19,12 @@ Repository created for store my FIAP POS TECH in .NET SYSTEMS ARCHITECTURE proje
 
 * [FIAP Cloud Game](./TechChallenge)
 
+## DevOps and Serverless
+
+### Github Actions
+
+* [CI/CD](.Fase2/Github Actions)
+
 ## Links
 
 * [FIAP](https://postech.fiap.com.br/curso/arquitetura-sistemas-net)
