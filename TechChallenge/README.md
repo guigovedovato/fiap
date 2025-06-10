@@ -9,6 +9,7 @@ A FIAP Cloud Games (FCG) é uma plataforma de venda de jogos digitais e gestão 
 - 🗄️ [Sqlite](https://www.sqlite.org/)
 - 🗂️ [Minimal API](https://learn.microsoft.com/pt-br/aspnet/core/tutorials/min-web-api?view=aspnetcore-9.0&tabs=visual-studio)
 - ✨ Domain-Driven Design (DDD)
+- :ship: [Docker](https://www.docker.com/)
 
 ## Projeto
 
