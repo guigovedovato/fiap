@@ -19,7 +19,8 @@ API REST em .NET8 para gerenciar usuários e seus jogos adquiridos.
   - Baixe e configure a aplicação na seção [Iniciando](#iniciando);
   - Como executar a aplicação na seção [Execução](#execução);
   - Veja a API na seção [API](#api);
-  - Para logar como admin [Admin](#admin);
+  - Para logar como [Admin](#admin);
+  - Para correr em [Docker](#docker);
 
 ## Requisitos
 
@@ -73,4 +74,11 @@ dotnet run
   "email": "admin@email.com",
   "password": "AdminPassword!123"
 }
+```
+
+## Docker
+
+```powershell
+docker build -t fcg:latest .
+docker run -p 80:8080 -it fcg
 ```
